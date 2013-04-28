@@ -48,7 +48,7 @@ UI Project:
             DashboardPage dashboardPage = new DashboardPage(dashboard)
             dashboardPage.open()
         then:
-            dashboardPage.projectHeadings == ["DICTIONARY PROJECT","UI PROJECT"]
+            dashboardPage.projectHeadings == ["Dictionary Project","UI Project"]
         and:
             dashboardPage.projectSubheadings == ["Sprint 1", "Sprint 2", "Sprint 1", "Sprint 2", "UI stuff", "Sprint 1", "Sprint 2"]
         and:
