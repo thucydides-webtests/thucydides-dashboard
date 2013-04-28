@@ -1,0 +1,54 @@
+<acceptance-test-run title="Looking up the definition of a simple word" name="Looking up the definition of a simple word" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="31770">
+  <user-story id="lookup_definitions" name="Lookup definitions" path="stories/learn_word_definitions/lookup_definitions.story"/>
+  <tags>
+    <tag name="Learn word definitions" type="capability"/>
+    <tag name="Lookup definitions" type="story"/>
+    <tag name="dictionary" type="component"/>
+    <tag name="sprint-1" type="iteration"/>
+  </tags>
+  <test-group name="Given the user does not know the meaning of the word &apos;apricot&apos;" result="SUCCESS">
+    <screenshots>
+      <screenshot image="screenshot-df2849a1c94de7e9d0d8400dfb77b9fd37a4f994ae28a9b2c31f107acc549ec62.png"/>
+    </screenshots>
+    <test-step result="SUCCESS" duration="14389">
+      <screenshots>
+        <screenshot image="screenshot-df2849a1c94de7e9d0d8400dfb77b9fd37a4f994ae28a9b2c31f107acc549ec61.png"/>
+      </screenshots>
+      <description>Consults the online dictionary</description>
+    </test-step>
+  </test-group>
+  <test-group name="When the user looks up the definition of the word &apos;apricot&apos;" result="SUCCESS">
+    <screenshots>
+      <screenshot image="screenshot-092fe267cb250323d5e904709fc830e2c45b5fc6e76888bcfdecf2bc77ad9a903.png"/>
+    </screenshots>
+    <test-group name="Looks up the definition of: {apricot}" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-2de5708e7eb806ea7d88cfaaf52e485e5e6f5ac39b47c45d031205c6d82c8d114.png"/>
+      </screenshots>
+      <test-step result="SUCCESS" duration="1234">
+        <screenshots>
+          <screenshot image="screenshot-279e789b562deaa13a27f2731e0cf94e2fa90df540c44a5c37eaa7e1b8a783256.png"/>
+        </screenshots>
+        <description>Enters: {apricot}</description>
+      </test-step>
+      <test-step result="SUCCESS" duration="13041">
+        <screenshots>
+          <screenshot image="screenshot-f847b2c26ce2d7e6bd69708f32912630bc09d71b6be858ea21e38ee56afdd53e7.png"/>
+          <screenshot image="screenshot-f847b2c26ce2d7e6bd69708f32912630bc09d71b6be858ea21e38ee56afdd53e8.png"/>
+        </screenshots>
+        <description>Starts search</description>
+      </test-step>
+    </test-group>
+  </test-group>
+  <test-group name="Then they should obtain a definition containing the words &apos;A round sweet and juicy stone fruit&apos;" result="SUCCESS">
+    <screenshots>
+      <screenshot image="screenshot-ab7ceeb3a3aa7bb92c4d4d9764a19ba27c1ac584bb4f28b4e364e88846b4e14711.png"/>
+    </screenshots>
+    <test-step result="SUCCESS" duration="821">
+      <screenshots>
+        <screenshot image="screenshot-95384fe8a25e1ceb46e772e194866d78e3b1f8ab0aec5b39a23e566d1c865e4812.png"/>
+      </screenshots>
+      <description>Should see a definition containing: {A round sweet and juicy stone fruit}</description>
+    </test-step>
+  </test-group>
+</acceptance-test-run>

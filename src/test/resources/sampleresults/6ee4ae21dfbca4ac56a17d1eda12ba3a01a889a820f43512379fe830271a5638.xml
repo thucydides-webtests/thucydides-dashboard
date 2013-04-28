@@ -1,0 +1,120 @@
+<acceptance-test-run title="Learn a new word every day" name="Learn a new word every day" steps="12" successful="0" failures="0" skipped="0" ignored="0" pending="12" result="PENDING" duration="5491">
+  <user-story id="word_of_the_day" name="Word of the day" path="stories/learn_word_definitions/word_of_the_day.story"/>
+  <tags>
+    <tag name="Learn word definitions" type="capability"/>
+    <tag name="ui" type="component"/>
+    <tag name="sprint-2" type="iteration"/>
+    <tag name="Word of the day" type="story"/>
+  </tags>
+  <examples>
+    <headers>
+      <header>date</header>
+      <header>word_of_the_day</header>
+      <header>word_of_the_day_definition</header>
+    </headers>
+    <rows>
+      <row result="PENDING">
+        <value>01/01/2013</value>
+        <value>apple</value>
+        <value>A common, round fruit</value>
+      </row>
+      <row result="PENDING">
+        <value>02/01/2013</value>
+        <value>banana</value>
+        <value>An elongated curved fruit</value>
+      </row>
+      <row result="PENDING">
+        <value>03/01/2013</value>
+        <value>grapefruit</value>
+        <value>a subtropical citrus tree known for its bitter fruit</value>
+      </row>
+    </rows>
+  </examples>
+  <test-group name="[1] {date=01/01/2013, word_of_the_day=apple, word_of_the_day_definition=A common, round fruit}" result="PENDING">
+    <screenshots>
+      <screenshot image="screenshot-5f8edfcd248d8158d2717101b45f63529164799af55af90957cf87888e7e4a5a79.png"/>
+    </screenshots>
+    <test-step result="PENDING" duration="380">
+      <screenshots>
+        <screenshot image="screenshot-d8e782f4e9cf71f65ee84779dd02383ecd9b00ff1dc193ab4e237e390b956a4f80.png"/>
+      </screenshots>
+      <description>Given today is the &lt;date&gt;</description>
+    </test-step>
+    <test-step result="PENDING" duration="359">
+      <screenshots>
+        <screenshot image="screenshot-689ecdaa08875c94c2bd12ecbc3fda4b97857a21c018dfd8bfbb5fe103d253ec81.png"/>
+      </screenshots>
+      <description>And the word of the day for &lt;date&gt; is &lt;word_of_the_day&gt;</description>
+    </test-step>
+    <test-step result="PENDING" duration="371">
+      <screenshots>
+        <screenshot image="screenshot-d09dc90a2f48e743dcd791b7f245a2061f0ed608db5b82293371f9ebf3f7126282.png"/>
+      </screenshots>
+      <description>Then the displayed word of the day should be &lt;word_of_the_day&gt;</description>
+    </test-step>
+    <test-step result="PENDING" duration="343">
+      <screenshots>
+        <screenshot image="screenshot-90d279c391cd3857f6e936f39e1738d9e8d6bae1b16850c337ee4ce4a0fda8eb83.png"/>
+      </screenshots>
+      <description>And definition of the word of the day should contain &apos;&lt;word_of_the_day_definition&gt;&apos;</description>
+    </test-step>
+  </test-group>
+  <test-group name="[2] {date=02/01/2013, word_of_the_day=banana, word_of_the_day_definition=An elongated curved fruit}" result="PENDING">
+    <screenshots>
+      <screenshot image="screenshot-7fd140314181fa0eb43ee1da0a5d66f834becb23ea89b3c1ae800ed1cb874dae84.png"/>
+    </screenshots>
+    <test-step result="PENDING" duration="352">
+      <screenshots>
+        <screenshot image="screenshot-d8e782f4e9cf71f65ee84779dd02383ecd9b00ff1dc193ab4e237e390b956a4f85.png"/>
+      </screenshots>
+      <description>Given today is the &lt;date&gt;</description>
+    </test-step>
+    <test-step result="PENDING" duration="342">
+      <screenshots>
+        <screenshot image="screenshot-689ecdaa08875c94c2bd12ecbc3fda4b97857a21c018dfd8bfbb5fe103d253ec86.png"/>
+      </screenshots>
+      <description>And the word of the day for &lt;date&gt; is &lt;word_of_the_day&gt;</description>
+    </test-step>
+    <test-step result="PENDING" duration="353">
+      <screenshots>
+        <screenshot image="screenshot-d09dc90a2f48e743dcd791b7f245a2061f0ed608db5b82293371f9ebf3f7126287.png"/>
+      </screenshots>
+      <description>Then the displayed word of the day should be &lt;word_of_the_day&gt;</description>
+    </test-step>
+    <test-step result="PENDING" duration="381">
+      <screenshots>
+        <screenshot image="screenshot-90d279c391cd3857f6e936f39e1738d9e8d6bae1b16850c337ee4ce4a0fda8eb88.png"/>
+      </screenshots>
+      <description>And definition of the word of the day should contain &apos;&lt;word_of_the_day_definition&gt;&apos;</description>
+    </test-step>
+  </test-group>
+  <test-group name="[3] {date=03/01/2013, word_of_the_day=grapefruit, word_of_the_day_definition=a subtropical citrus tree known for its bitter fruit}" result="PENDING">
+    <screenshots>
+      <screenshot image="screenshot-3e3b883276a4be7f3e81c97626446c2f451f7fc5d2053efb1f6bce351e5ac26f89.png"/>
+    </screenshots>
+    <test-step result="PENDING" duration="362">
+      <screenshots>
+        <screenshot image="screenshot-d8e782f4e9cf71f65ee84779dd02383ecd9b00ff1dc193ab4e237e390b956a4f90.png"/>
+      </screenshots>
+      <description>Given today is the &lt;date&gt;</description>
+    </test-step>
+    <test-step result="PENDING" duration="361">
+      <screenshots>
+        <screenshot image="screenshot-689ecdaa08875c94c2bd12ecbc3fda4b97857a21c018dfd8bfbb5fe103d253ec91.png"/>
+      </screenshots>
+      <description>And the word of the day for &lt;date&gt; is &lt;word_of_the_day&gt;</description>
+    </test-step>
+    <test-step result="PENDING" duration="390">
+      <screenshots>
+        <screenshot image="screenshot-d09dc90a2f48e743dcd791b7f245a2061f0ed608db5b82293371f9ebf3f7126292.png"/>
+      </screenshots>
+      <description>Then the displayed word of the day should be &lt;word_of_the_day&gt;</description>
+    </test-step>
+    <test-step result="PENDING" duration="345">
+      <screenshots>
+        <screenshot image="screenshot-90d279c391cd3857f6e936f39e1738d9e8d6bae1b16850c337ee4ce4a0fda8eb93.png"/>
+      </screenshots>
+      <description>And definition of the word of the day should contain &apos;&lt;word_of_the_day_definition&gt;&apos;</description>
+    </test-step>
+  </test-group>
+</acceptance-test-run>

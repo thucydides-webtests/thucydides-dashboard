@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Thucydides Reports</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/core.css"/>
+    <link rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css"/>
+    <style type="text/css">a:link {
+        text-decoration: none;
+    }
+
+    a:visited {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    a:active {
+        text-decoration: none;
+    }
+    </style>
+
+
+    <!--[if IE]>
+    <script language="javascript" type="text/javascript" src="jit/Extras/excanvas.js"></script><![endif]-->
+
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="datatables/media/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="jqplot/jquery.jqplot.min.js"></script>
+    <script type="text/javascript" src="jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+
+    <link type="text/css" href="jqueryui/css/start/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+    <script type="text/javascript" src="jqueryui/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+    <style type="text/css" media="screen">
+        .dataTables_info { padding-top: 0; }
+        .dataTables_paginate { padding-top: 0; }
+        .css_right { float: right; }
+    </style>
+
+    <script class="code" type="text/javascript">$(document).ready(function () {
+        var test_results_plot = $.jqplot('test_results_pie_chart', [
+            [
+                ['Passing', 0],
+                ['Pending', 1],
+                ['Failing', 0],
+                ['Errors',  0]
+            ]
+        ], {
+
+            gridPadding:{top:0, bottom:38, left:0, right:0},
+            seriesColors:['#30cb23', '#a2f2f2', '#f8001f','#fc6e1f'],
+            seriesDefaults:{
+                renderer:$.jqplot.PieRenderer,
+                trendline:{ show:false },
+                rendererOptions:{ padding:8, showDataLabels:true }
+            },
+            legend:{
+                show:true,
+                placement:'outside',
+                rendererOptions:{
+                    numberRows:1
+                },
+                location:'s',
+                marginTop:'15px'
+            },
+            series:[
+                {label:'0 / 3 tests passed' },
+                {label:'3 / 3 tests pending'},
+                {label:'0 / 3 tests failed'},
+                {label:'0 / 3 errors'}
+            ]
+        });
+
+        var weighted_test_results_plot = $.jqplot('weighted_test_results_pie_chart', [
+            [
+            ['Passing', 0],
+            ['Pending', 1],
+            ['Failing', 0],
+            ['Errors', 0]
+            ]
+        ], {
+
+        gridPadding:{top:0, bottom:38, left:0, right:0},
+            seriesColors:['#30cb23', '#a2f2f2', '#f8001f','#fc6e1f'],
+            seriesDefaults:{
+                renderer:$.jqplot.PieRenderer,
+                trendline:{ show:false },
+                rendererOptions:{ padding:8, showDataLabels:true }
+            },
+            legend:{
+                show:true,
+                placement:'outside',
+                rendererOptions:{
+                    numberRows:1
+                },
+                location:'s',
+                marginTop:'15px'
+            },
+            series:[
+                {label:'0 / 3 tests passed (0% of all test steps)' },
+                {label:'3 / 3 tests pending (1% of all test steps)'},
+                {label:'0 / 3 tests failed (0% of all test steps)'},
+                {label:'0 / 3 errors (0% of all test steps)'}
+            ]
+        });
+
+        // Results table
+        $('#test-results-table').dataTable( {
+            "aaSorting": [[ 1, "asc" ]],
+            "bJQueryUI": true
+        } );
+
+        // Pie charts
+        $('#test-results-tabs').tabs()
+    })
+    ;
+    </script>
+</head>
+
+<body>
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/logo.jpg" border="0"/></a></div>
+    </div>
+</div>
+
+<div class="middlecontent">
+
+    <div id="contenttop">
+        <div class="middlebg">
+            <span class="bluetext"><a href="index.html" class="bluetext">Thucydides Reports</a>> ui (pending tests)</span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+    <div class="menu">
+        <ul>
+            <li><a href="index.html" class="current">Test Results</a></li>
+            <li><a href="capabilities.html">Requirements</a></li>
+            <li><a href="progress-report.html">Progress</a></li>
+                <li><a href="44275d9f9111ed8f021935f8223474ad05159345316b8d05e4983f1519a1b67c.html">Capabilities</a></li>
+                <li><a href="a5cc63692ce2223fd0f4d8b5f6ea6c8e811b62b0ed25e89d4a05ec5b952e7e7a.html">Components</a></li>
+                <li><a href="e5ea466f7539fc44c9ef2cee394f45729a8e78c2d85f6341ec66cc72dcc2e51f.html">Iterations</a></li>
+                <li><a href="3d2871ef9911e9892794a9042e262e6b82ae98dff337dd2d2e4d80be2072e38e.html">Stories</a></li>
+            <li><a href="history.html">History</a></li>
+        </ul>
+        <br style="clear:left"/>
+    </div>
+
+    <div class="clr"></div>
+    <div id="beforetable"></div>
+    <div id="results-dashboard">
+        <div class="middlb">
+            <div class="table">
+                <h2>Component: Ui (Pending Tests)</h2>
+                <table class='overview'>
+                    <tr>
+                        <td width="375px" valign="top">
+                            <div class="test-count-summary">
+                                <span class="test-count-title">3 test scenarios (including 3 rows of test data):</span>
+
+
+                                <span class="test-count">
+                                    0
+passed,
+                                </span>
+                                <span class="test-count">
+                                3
+pending,
+                                </span>
+                                <span class="test-count">
+                                    0
+failed,
+                                </span>
+                                <span class="test-count">
+                                    0
+errors
+                                </span>
+                            </div>
+
+                            <div id="test-results-tabs">
+                                <ul>
+                                    <li><a href="#test-results-tabs-1">Test Count</a></li>
+                                    <li><a href="#test-results-tabs-2">Weighted Tests</a></li>
+                                </ul>
+                                <div id="test-results-tabs-1">
+                                    <table>
+                                        <tr>
+                                            <td colspan="2">
+                                                <span class="caption">Total number of tests that pass, fail, or are pending.</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div id="test_results_pie_chart"></div>
+                                            </td>
+                                            <td class="related-tags-section">
+                                                <div>
+    <h4>Related tags</h4>
+        <table class="test-summary-table">
+            <tr>
+                <td colspan="3">
+                    <div class="tagTypeTitle">
+                    Capabilities
+                    </div>
+                </td>
+            </tr>
+                <tr>
+                    <td class="bluetext" width="300px">
+                        <div class="tagTitle">
+                                <span class="PENDING-text">
+                                        <a href="534b697c800f9af192bd4e8b66b34357759d9f3fa4e20aefbcc77f62ba46047c.html">Learn Word Definitions</a>
+                                </span>
+                        </div>
+                    </td>
+                    <td width="150px" class="lightgreentext">
+
+
+                        <table>
+                            <tr>
+                                <td width="50px">0%</td>
+                                <td width="150px">
+                                    <a href="534b697c800f9af192bd4e8b66b34357759d9f3fa4e20aefbcc77f62ba46047c.html">
+                                        <div class="percentagebar"
+                                             title="3 out of 3 test pending"
+                                             style="width: 150px;">
+                                            <div class="errorbar"
+                                                 style="width: 0px;"
+                                                 title="0 out of 3 test broken">
+                                                <div class="failingbar"
+                                                     style="width: 0px;"
+                                                     title="0 out of 3 test failing">
+                                                    <div class="passingbar"
+                                                         style="width: 0px;"
+                                                         title="0 out of 3 test passing">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+        </table>
+        <table class="test-summary-table">
+            <tr>
+                <td colspan="3">
+                    <div class="tagTypeTitle">
+                    Components
+                    </div>
+                </td>
+            </tr>
+                <tr>
+                    <td class="bluetext" width="300px">
+                        <div class="tagTitle">
+                                <span class="PENDING-text">
+                                        <a href="4283a8c95bc55197fceac6f0372a3b9a5d9e1e52e4b90b465960e6f270ec3189.html">Ui</a>
+                                </span>
+                        </div>
+                    </td>
+                    <td width="150px" class="lightgreentext">
+
+
+                        <table>
+                            <tr>
+                                <td width="50px">0%</td>
+                                <td width="150px">
+                                    <a href="4283a8c95bc55197fceac6f0372a3b9a5d9e1e52e4b90b465960e6f270ec3189.html">
+                                        <div class="percentagebar"
+                                             title="3 out of 3 test pending"
+                                             style="width: 150px;">
+                                            <div class="errorbar"
+                                                 style="width: 0px;"
+                                                 title="0 out of 3 test broken">
+                                                <div class="failingbar"
+                                                     style="width: 0px;"
+                                                     title="0 out of 3 test failing">
+                                                    <div class="passingbar"
+                                                         style="width: 0px;"
+                                                         title="0 out of 3 test passing">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+        </table>
+        <table class="test-summary-table">
+            <tr>
+                <td colspan="3">
+                    <div class="tagTypeTitle">
+                    Iterations
+                    </div>
+                </td>
+            </tr>
+                <tr>
+                    <td class="bluetext" width="300px">
+                        <div class="tagTitle">
+                                <span class="PENDING-text">
+                                        <a href="8d940698921c36b16dfe768fac92f052ed08855d5d91fa1fcb4594e1e0382876.html">Sprint-2</a>
+                                </span>
+                        </div>
+                    </td>
+                    <td width="150px" class="lightgreentext">
+
+
+                        <table>
+                            <tr>
+                                <td width="50px">0%</td>
+                                <td width="150px">
+                                    <a href="8d940698921c36b16dfe768fac92f052ed08855d5d91fa1fcb4594e1e0382876.html">
+                                        <div class="percentagebar"
+                                             title="3 out of 3 test pending"
+                                             style="width: 150px;">
+                                            <div class="errorbar"
+                                                 style="width: 0px;"
+                                                 title="0 out of 3 test broken">
+                                                <div class="failingbar"
+                                                     style="width: 0px;"
+                                                     title="0 out of 3 test failing">
+                                                    <div class="passingbar"
+                                                         style="width: 0px;"
+                                                         title="0 out of 3 test passing">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+        </table>
+        <table class="test-summary-table">
+            <tr>
+                <td colspan="3">
+                    <div class="tagTypeTitle">
+                    Stories
+                    </div>
+                </td>
+            </tr>
+                <tr>
+                    <td class="bluetext" width="300px">
+                        <div class="tagTitle">
+                                <span class="PENDING-text">
+                                        <a href="320940bf9dea7b23f1f45c9afb08704969c18f956693e2e56c49ce3420af812f.html">Word Of The Day</a>
+                                </span>
+                        </div>
+                    </td>
+                    <td width="150px" class="lightgreentext">
+
+
+                        <table>
+                            <tr>
+                                <td width="50px">0%</td>
+                                <td width="150px">
+                                    <a href="320940bf9dea7b23f1f45c9afb08704969c18f956693e2e56c49ce3420af812f.html">
+                                        <div class="percentagebar"
+                                             title="3 out of 3 test pending"
+                                             style="width: 150px;">
+                                            <div class="errorbar"
+                                                 style="width: 0px;"
+                                                 title="0 out of 3 test broken">
+                                                <div class="failingbar"
+                                                     style="width: 0px;"
+                                                     title="0 out of 3 test failing">
+                                                    <div class="passingbar"
+                                                         style="width: 0px;"
+                                                         title="0 out of 3 test passing">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+        </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div id="test-results-tabs-2">
+                                    <table>
+                                        <tr>
+                                            <td colspan="2">
+                                                <span class="caption">Total number of tests, weighted by test steps.</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div id="weighted_test_results_pie_chart"></div>
+                                            </td>
+                                            <td class="related-tags-section">
+                                                <div>
+    <h4>Related tags</h4>
+        <table class="test-summary-table">
+            <tr>
+                <td colspan="3">
+                    <div class="tagTypeTitle">
+                    Capabilities
+                    </div>
+                </td>
+            </tr>
+                <tr>
+                    <td class="bluetext" width="300px">
+                        <div class="tagTitle">
+                                <span class="PENDING-text">
+                                        <a href="534b697c800f9af192bd4e8b66b34357759d9f3fa4e20aefbcc77f62ba46047c.html">Learn Word Definitions</a>
+                                </span>
+                        </div>
+                    </td>
+                    <td width="150px" class="lightgreentext">
+
+
+                        <table>
+                            <tr>
+                                <td width="50px">0%</td>
+                                <td width="150px">
+                                    <a href="534b697c800f9af192bd4e8b66b34357759d9f3fa4e20aefbcc77f62ba46047c.html">
+                                        <div class="percentagebar"
+                                             title="3 out of 3 test pending"
+                                             style="width: 150px;">
+                                            <div class="errorbar"
+                                                 style="width: 0px;"
+                                                 title="0 out of 3 test broken">
+                                                <div class="failingbar"
+                                                     style="width: 0px;"
+                                                     title="0 out of 3 test failing">
+                                                    <div class="passingbar"
+                                                         style="width: 0px;"
+                                                         title="0 out of 3 test passing">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+        </table>
+        <table class="test-summary-table">
+            <tr>
+                <td colspan="3">
+                    <div class="tagTypeTitle">
+                    Components
+                    </div>
+                </td>
+            </tr>
+                <tr>
+                    <td class="bluetext" width="300px">
+                        <div class="tagTitle">
+                                <span class="PENDING-text">
+                                        <a href="4283a8c95bc55197fceac6f0372a3b9a5d9e1e52e4b90b465960e6f270ec3189.html">Ui</a>
+                                </span>
+                        </div>
+                    </td>
+                    <td width="150px" class="lightgreentext">
+
+
+                        <table>
+                            <tr>
+                                <td width="50px">0%</td>
+                                <td width="150px">
+                                    <a href="4283a8c95bc55197fceac6f0372a3b9a5d9e1e52e4b90b465960e6f270ec3189.html">
+                                        <div class="percentagebar"
+                                             title="3 out of 3 test pending"
+                                             style="width: 150px;">
+                                            <div class="errorbar"
+                                                 style="width: 0px;"
+                                                 title="0 out of 3 test broken">
+                                                <div class="failingbar"
+                                                     style="width: 0px;"
+                                                     title="0 out of 3 test failing">
+                                                    <div class="passingbar"
+                                                         style="width: 0px;"
+                                                         title="0 out of 3 test passing">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+        </table>
+        <table class="test-summary-table">
+            <tr>
+                <td colspan="3">
+                    <div class="tagTypeTitle">
+                    Iterations
+                    </div>
+                </td>
+            </tr>
+                <tr>
+                    <td class="bluetext" width="300px">
+                        <div class="tagTitle">
+                                <span class="PENDING-text">
+                                        <a href="8d940698921c36b16dfe768fac92f052ed08855d5d91fa1fcb4594e1e0382876.html">Sprint-2</a>
+                                </span>
+                        </div>
+                    </td>
+                    <td width="150px" class="lightgreentext">
+
+
+                        <table>
+                            <tr>
+                                <td width="50px">0%</td>
+                                <td width="150px">
+                                    <a href="8d940698921c36b16dfe768fac92f052ed08855d5d91fa1fcb4594e1e0382876.html">
+                                        <div class="percentagebar"
+                                             title="3 out of 3 test pending"
+                                             style="width: 150px;">
+                                            <div class="errorbar"
+                                                 style="width: 0px;"
+                                                 title="0 out of 3 test broken">
+                                                <div class="failingbar"
+                                                     style="width: 0px;"
+                                                     title="0 out of 3 test failing">
+                                                    <div class="passingbar"
+                                                         style="width: 0px;"
+                                                         title="0 out of 3 test passing">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+        </table>
+        <table class="test-summary-table">
+            <tr>
+                <td colspan="3">
+                    <div class="tagTypeTitle">
+                    Stories
+                    </div>
+                </td>
+            </tr>
+                <tr>
+                    <td class="bluetext" width="300px">
+                        <div class="tagTitle">
+                                <span class="PENDING-text">
+                                        <a href="320940bf9dea7b23f1f45c9afb08704969c18f956693e2e56c49ce3420af812f.html">Word Of The Day</a>
+                                </span>
+                        </div>
+                    </td>
+                    <td width="150px" class="lightgreentext">
+
+
+                        <table>
+                            <tr>
+                                <td width="50px">0%</td>
+                                <td width="150px">
+                                    <a href="320940bf9dea7b23f1f45c9afb08704969c18f956693e2e56c49ce3420af812f.html">
+                                        <div class="percentagebar"
+                                             title="3 out of 3 test pending"
+                                             style="width: 150px;">
+                                            <div class="errorbar"
+                                                 style="width: 0px;"
+                                                 title="0 out of 3 test broken">
+                                                <div class="failingbar"
+                                                     style="width: 0px;"
+                                                     title="0 out of 3 test failing">
+                                                    <div class="passingbar"
+                                                         style="width: 0px;"
+                                                         title="0 out of 3 test passing">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+        </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                </table>
+                <table>
+                 <tr>
+                   <td>
+                    <div><h3>Tests</h3></div>
+                    <div id="test_list_tests" class="table">
+                        <div class="test-results">
+                            <table id="test-results-table">
+                                <thead>
+                                    <tr>
+                                        <th width="30" class="test-results-heading">&nbsp;</th>
+                                        <th width="%" class="test-results-heading">Tests</th>
+                                        <th width="70" class="test-results-heading">Steps</th>
+
+
+                                        <th width="65" class="test-results-heading">Stable</th>
+                                        <th width="100" class="test-results-heading">Duration<br>(seconds)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                <tr class="test-PENDING">
+                                        <td><img src="images/pending.png" title="PENDING" class="summary-icon"/><span style="display:none">PENDING</span></td>
+                                        <td class="PENDING-text"><a href="6ee4ae21dfbca4ac56a17d1eda12ba3a01a889a820f43512379fe830271a5638.html">Learn a new word every day </a></td>
+
+                                        <td class="lightgreentext">15</td>
+
+
+                                        <td class="bluetext">
+                                            <img src="images/traffic-in-progress.gif"
+                                                 title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                                 class="summary-icon"/>
+                                            <span style="display:none">0</span>
+                                        </td>
+                                        <td class="lightgreentext">5.49</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                   </td>
+                  </tr>
+                 </table>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="beforefooter"></div>
+<div id="bottomfooter"></div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<acceptance-test-run title="Looking up the definition of various words" name="Looking up the definition of various words" steps="12" successful="12" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="31929">
+  <user-story id="lookup_definitions" name="Lookup definitions" path="stories/learn_word_definitions/lookup_definitions.story"/>
+  <tags>
+    <tag name="Learn word definitions" type="capability"/>
+    <tag name="Lookup definitions" type="story"/>
+    <tag name="dictionary" type="component"/>
+    <tag name="sprint-1" type="iteration"/>
+  </tags>
+  <examples>
+    <headers>
+      <header>word</header>
+      <header>definition</header>
+    </headers>
+    <rows>
+      <row result="SUCCESS">
+        <value>apple</value>
+        <value>A common, round fruit</value>
+      </row>
+      <row result="SUCCESS">
+        <value>fig</value>
+        <value>The fruit of the fig tree</value>
+      </row>
+      <row result="SUCCESS">
+        <value>pear</value>
+        <value>An edible fruit produced by the pear tree</value>
+      </row>
+    </rows>
+  </examples>
+  <test-group name="[1] {word=apple, definition=A common, round fruit}" result="SUCCESS">
+    <screenshots>
+      <screenshot image="screenshot-172b22ac63e7ec909ba1874884c77541f0356f685a1fb5eefbd458c9e649a4e515.png"/>
+    </screenshots>
+    <test-group name="Given the user does not know the meaning of the word &apos;{apple}&apos;" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-adcbc0705586f4ba652f2e5c046dc48be057b9463371d42964ef5522eec0c30f16.png"/>
+      </screenshots>
+      <test-step result="SUCCESS" duration="2519">
+        <screenshots>
+          <screenshot image="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b417.png"/>
+          <screenshot image="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b418.png"/>
+        </screenshots>
+        <description>Consults the online dictionary</description>
+      </test-step>
+    </test-group>
+    <test-group name="When the user looks up the definition of the word &apos;{apple}&apos;" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-1075dc774a386e3d869767187b0d61e4110e2b6a61b37101fa57cccca1a1cebf20.png"/>
+      </screenshots>
+      <test-group name="Looks up the definition of: {apple}" result="SUCCESS">
+        <screenshots>
+          <screenshot image="screenshot-16275de7deac4183e1195e7ebc477179d5c974ff67224aa2cc36041dcee7987121.png"/>
+        </screenshots>
+        <test-step result="SUCCESS" duration="991">
+          <screenshots>
+            <screenshot image="screenshot-f212e728d3a4e4cdcdf69bfdc951e0dc87c7846f1d4a1c487d9cf3fad542b88922.png"/>
+            <screenshot image="screenshot-f212e728d3a4e4cdcdf69bfdc951e0dc87c7846f1d4a1c487d9cf3fad542b88923.png"/>
+          </screenshots>
+          <description>Enters: {apple}</description>
+        </test-step>
+        <test-step result="SUCCESS" duration="3968">
+          <screenshots>
+            <screenshot image="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63324.png"/>
+            <screenshot image="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63325.png"/>
+          </screenshots>
+          <description>Starts search</description>
+        </test-step>
+      </test-group>
+    </test-group>
+    <test-group name="Then they should obtain a definition containing the words &apos;{A common, round fruit}&apos;" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-37a63031108c4cb18a6bafe5878982add300ae446275d985891d879c90b20c8028.png"/>
+      </screenshots>
+      <test-step result="SUCCESS" duration="1159">
+        <screenshots>
+          <screenshot image="screenshot-a05ad8a00f9a8f5c6d0ba099eba2560264698c5b453c2be9ed356f10faf5acd429.png"/>
+        </screenshots>
+        <description>Should see a definition containing: {A common, round fruit}</description>
+      </test-step>
+    </test-group>
+  </test-group>
+  <test-group name="[2] {word=fig, definition=The fruit of the fig tree}" result="SUCCESS">
+    <screenshots>
+      <screenshot image="screenshot-2a05093d5ede7bc89588ad83370606c8b1db0b50eab48bb88ebb65e59dc8e02732.png"/>
+    </screenshots>
+    <test-group name="Given the user does not know the meaning of the word &apos;{fig}&apos;" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-adcbc0705586f4ba652f2e5c046dc48be057b9463371d42964ef5522eec0c30f33.png"/>
+      </screenshots>
+      <test-step result="SUCCESS" duration="2173">
+        <screenshots>
+          <screenshot image="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b434.png"/>
+          <screenshot image="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b435.png"/>
+        </screenshots>
+        <description>Consults the online dictionary</description>
+      </test-step>
+    </test-group>
+    <test-group name="When the user looks up the definition of the word &apos;{fig}&apos;" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-1075dc774a386e3d869767187b0d61e4110e2b6a61b37101fa57cccca1a1cebf37.png"/>
+      </screenshots>
+      <test-group name="Looks up the definition of: {fig}" result="SUCCESS">
+        <screenshots>
+          <screenshot image="screenshot-351753ce4ad9710b8b520671c9d6657a371963c553368e79483ac7292dffeb8438.png"/>
+        </screenshots>
+        <test-step result="SUCCESS" duration="967">
+          <screenshots>
+            <screenshot image="screenshot-f7d1e949f25fa637f3f6edcf0bf0c68791505ef258d69bb625bfa48798582aa739.png"/>
+            <screenshot image="screenshot-f7d1e949f25fa637f3f6edcf0bf0c68791505ef258d69bb625bfa48798582aa740.png"/>
+          </screenshots>
+          <description>Enters: {fig}</description>
+        </test-step>
+        <test-step result="SUCCESS" duration="3323">
+          <screenshots>
+            <screenshot image="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63341.png"/>
+            <screenshot image="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63342.png"/>
+          </screenshots>
+          <description>Starts search</description>
+        </test-step>
+      </test-group>
+    </test-group>
+    <test-group name="Then they should obtain a definition containing the words &apos;{The fruit of the fig tree}&apos;" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-37a63031108c4cb18a6bafe5878982add300ae446275d985891d879c90b20c8045.png"/>
+      </screenshots>
+      <test-step result="SUCCESS" duration="992">
+        <screenshots>
+          <screenshot image="screenshot-14f096d6a56e636c79f0aa985251e653f7fa1144c2596110acc4216a35b9225846.png"/>
+        </screenshots>
+        <description>Should see a definition containing: {The fruit of the fig tree}</description>
+      </test-step>
+    </test-group>
+  </test-group>
+  <test-group name="[3] {word=pear, definition=An edible fruit produced by the pear tree}" result="SUCCESS">
+    <screenshots>
+      <screenshot image="screenshot-60b6b471a55bb19c895106b25733178a1f82ce966407e34666b7b0dfa535e24b49.png"/>
+    </screenshots>
+    <test-group name="Given the user does not know the meaning of the word &apos;{pear}&apos;" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-adcbc0705586f4ba652f2e5c046dc48be057b9463371d42964ef5522eec0c30f50.png"/>
+      </screenshots>
+      <test-step result="SUCCESS" duration="1968">
+        <screenshots>
+          <screenshot image="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b451.png"/>
+          <screenshot image="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b452.png"/>
+        </screenshots>
+        <description>Consults the online dictionary</description>
+      </test-step>
+    </test-group>
+    <test-group name="When the user looks up the definition of the word &apos;{pear}&apos;" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-1075dc774a386e3d869767187b0d61e4110e2b6a61b37101fa57cccca1a1cebf54.png"/>
+      </screenshots>
+      <test-group name="Looks up the definition of: {pear}" result="SUCCESS">
+        <screenshots>
+          <screenshot image="screenshot-4f3604ef64e7d58c400d89cfbc41df523c4c8b06b91240876639f585ac0dc39355.png"/>
+        </screenshots>
+        <test-step result="SUCCESS" duration="1003">
+          <screenshots>
+            <screenshot image="screenshot-3119f5f64893236b05b475a4beaa98ce9a4b461a32492c9760854afe6808106a56.png"/>
+            <screenshot image="screenshot-3119f5f64893236b05b475a4beaa98ce9a4b461a32492c9760854afe6808106a57.png"/>
+          </screenshots>
+          <description>Enters: {pear}</description>
+        </test-step>
+        <test-step result="SUCCESS" duration="2954">
+          <screenshots>
+            <screenshot image="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63358.png"/>
+            <screenshot image="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63359.png"/>
+          </screenshots>
+          <description>Starts search</description>
+        </test-step>
+      </test-group>
+    </test-group>
+    <test-group name="Then they should obtain a definition containing the words &apos;{An edible fruit produced by the pear tree}&apos;" result="SUCCESS">
+      <screenshots>
+        <screenshot image="screenshot-37a63031108c4cb18a6bafe5878982add300ae446275d985891d879c90b20c8062.png"/>
+      </screenshots>
+      <test-step result="SUCCESS" duration="848">
+        <screenshots>
+          <screenshot image="screenshot-148da172069c8f914437daa08a7c591c929c2a988e9d883b2da0270a60b4f63f63.png"/>
+        </screenshots>
+        <description>Should see a definition containing: {An edible fruit produced by the pear tree}</description>
+      </test-step>
+    </test-group>
+  </test-group>
+</acceptance-test-run>

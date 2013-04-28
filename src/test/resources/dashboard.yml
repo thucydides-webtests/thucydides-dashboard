@@ -1,0 +1,9 @@
+Section 1:
+  tags: ["project:P1", "project:P2"]
+  subsections:
+    - Section 1.1:
+        tags: "iteration:I1"
+    - Section 1.2:
+        tags: "iteration:I2"
+Section 2:
+  tags: "project:P2"

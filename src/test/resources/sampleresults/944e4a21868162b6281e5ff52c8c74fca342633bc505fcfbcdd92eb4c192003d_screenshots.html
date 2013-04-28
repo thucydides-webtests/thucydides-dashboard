@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Home</title>
+    <link rel="shortcut icon" href="favicon.ico" >
+    <link href="css/core.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">a:link {
+        text-decoration: none;
+    }
+
+    a:visited {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    a:active {
+        text-decoration: none;
+    }
+	#slider {
+	    position:relative;
+	    width:1000px; /* Change this to your images width */
+	    height:800px; /* Change this to your images height */
+	    background:url(images/loading.gif) no-repeat 50% 50%;
+	}
+	#slider img {
+	    position:absolute;
+	    top:0px;
+	    left:0px;
+	    display:none;
+	}
+	#slider a {
+	    border:0;
+	    display:block;
+	}
+
+    </style>
+
+	<!-- CSS Files -->
+    <link href="slides/js/global.css" rel="stylesheet" type="text/css"/>
+
+    <script src="scripts/jquery.js"></script>
+
+	<link rel="stylesheet" href="nivo-slider/nivo-slider.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="nivo-slider/themes/default/default.css" type="text/css" media="screen" />
+
+	<script src="nivo-slider/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
+    var screenshotIndex = getUrlVars()["screenshot"];
+
+	$(window).load(function() {
+	    $('#slider').nivoSlider({
+            startSlide:screenshotIndex,
+            effect:'fade',
+			animSpeed:200,
+			directionNavHide:false,
+			manualAdvance:true,
+			keyboardNav:true
+		});
+	});
+	</script>
+
+</head>
+
+<body>
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/logo.jpg" border="0"/></a></div>
+    </div>
+</div>
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+            <span class="bluetext"><a href="index.html" class="bluetext">Home</a> > <a href="944e4a21868162b6281e5ff52c8c74fca342633bc505fcfbcdd92eb4c192003d.html">Looking up the definition of a word containing a spelling mistake</a> > Screenshots </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+    <div class="menu">
+        <ul>
+            <li><a href="index.html" class="current">Test Results</a></li>
+            <li><a href="capabilities.html">Requirements</a></li>
+            <li><a href="progress-report.html">Progress</a></li>
+            <li><a href="44275d9f9111ed8f021935f8223474ad05159345316b8d05e4983f1519a1b67c.html">Capabilities</a></li>
+            <li><a href="a5cc63692ce2223fd0f4d8b5f6ea6c8e811b62b0ed25e89d4a05ec5b952e7e7a.html">Components</a></li>
+            <li><a href="e5ea466f7539fc44c9ef2cee394f45729a8e78c2d85f6341ec66cc72dcc2e51f.html">Iterations</a></li>
+            <li><a href="3d2871ef9911e9892794a9042e262e6b82ae98dff337dd2d2e4d80be2072e38e.html">Stories</a></li>
+            <li><a href="history.html">History</a></li>
+        </ul>
+        <br style="clear:left"/>
+    </div>
+
+    <div class="clr"></div>
+    <div id="contentbody">
+        <div class="titlebar">
+        <div class="story-title">
+            <table width="1005">
+                <td width="50"><img class="story-outcome-icon" src="images/pending.png" width="25" height="25"/> </td>
+                <td width="%"><span class="test-case-title"><span
+                        class="pending-color">Looking up the definition of a word containing a spelling mistake<span class="related-issue-title"></span></span></span>
+                </td>
+                <td width="100"><span class="test-case-duration"><span class="greentext">3.65s</span></span>
+                </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div>
+                            <h3>Story:  Lookup Definitions</h3>
+                            <div class="requirementNarrativeTitle">
+                            In order to understand what I am reading about<br>As a reader<br>I want to be able to look up definitions of words<br>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <a class="tagLink" href="c8696cf875b046c418d7dd20c79120a531a6c4153ff27ba60464be76c7b850d8.html">Learn word definitions (capability)</a>
+                        <a class="tagLink" href="a35b59f81a00b8c1e4f34a0ab2015a0984e8be8f43500844f04de0bd75fa7980.html">Lookup definitions (story)</a>
+                        <a class="tagLink" href="8efdbaa56e91ed3cc5960cde98fb83fd53823822449312eb991b7536147e1810.html">dictionary (component)</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <div class="clr"></div>
+
+
+
+    <div id="beforetable"></div>
+    <div id="contenttilttle">
+
+	 <div class="slider-wrapper theme-default">
+		<div id="slider">
+                <img src="screenshot-18123f59d8f1379d0c4be7047cf4a8dfca6915c094685191d322353f2bad188467.png" alt="" title="Consults the online dictionary" width="1245"/>
+                <img src="screenshot-18123f59d8f1379d0c4be7047cf4a8dfca6915c094685191d322353f2bad188468.png" alt="" title="Consults the online dictionary" width="1245"/>
+                <img src="screenshot-b28798b5ff942dff3608b9069889e7c886857ee4043a00f2a1ef49bdab03d6a170.png" alt="" title="And the user does not know how to spell" width="1245"/>
+                <img src="screenshot-c1841c95a9f7b8db699718514fa83474a7cfebf2ef755a8202bf3b04a17d7c6471.png" alt="" title="When the user looks up the definition of the word 'bananna'" width="1245"/>
+                <img src="screenshot-641fff94e36db053e650382629cbe90074c4d82bd0ad3bb7be0322c0b2b9cc2572.png" alt="" title="Then the application should say &quot;did you mean 'banana'?&quot;" width="1245"/>
+        </div>
+	  </div>
+
+
+    </div>
+</div>
+<div id="beforefooter"></div>
+<div id="bottomfooter"></div>
+
+</body>
+</html>

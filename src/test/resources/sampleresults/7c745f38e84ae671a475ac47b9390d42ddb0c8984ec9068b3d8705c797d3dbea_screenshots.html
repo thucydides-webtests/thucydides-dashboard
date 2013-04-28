@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Home</title>
+    <link rel="shortcut icon" href="favicon.ico" >
+    <link href="css/core.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">a:link {
+        text-decoration: none;
+    }
+
+    a:visited {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    a:active {
+        text-decoration: none;
+    }
+	#slider {
+	    position:relative;
+	    width:1000px; /* Change this to your images width */
+	    height:800px; /* Change this to your images height */
+	    background:url(images/loading.gif) no-repeat 50% 50%;
+	}
+	#slider img {
+	    position:absolute;
+	    top:0px;
+	    left:0px;
+	    display:none;
+	}
+	#slider a {
+	    border:0;
+	    display:block;
+	}
+
+    </style>
+
+	<!-- CSS Files -->
+    <link href="slides/js/global.css" rel="stylesheet" type="text/css"/>
+
+    <script src="scripts/jquery.js"></script>
+
+	<link rel="stylesheet" href="nivo-slider/nivo-slider.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="nivo-slider/themes/default/default.css" type="text/css" media="screen" />
+
+	<script src="nivo-slider/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
+    var screenshotIndex = getUrlVars()["screenshot"];
+
+	$(window).load(function() {
+	    $('#slider').nivoSlider({
+            startSlide:screenshotIndex,
+            effect:'fade',
+			animSpeed:200,
+			directionNavHide:false,
+			manualAdvance:true,
+			keyboardNav:true
+		});
+	});
+	</script>
+
+</head>
+
+<body>
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/logo.jpg" border="0"/></a></div>
+    </div>
+</div>
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+            <span class="bluetext"><a href="index.html" class="bluetext">Home</a> > <a href="7c745f38e84ae671a475ac47b9390d42ddb0c8984ec9068b3d8705c797d3dbea.html">Looking up the definition of various words</a> > Screenshots </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+    <div class="menu">
+        <ul>
+            <li><a href="index.html" class="current">Test Results</a></li>
+            <li><a href="capabilities.html">Requirements</a></li>
+            <li><a href="progress-report.html">Progress</a></li>
+            <li><a href="44275d9f9111ed8f021935f8223474ad05159345316b8d05e4983f1519a1b67c.html">Capabilities</a></li>
+            <li><a href="a5cc63692ce2223fd0f4d8b5f6ea6c8e811b62b0ed25e89d4a05ec5b952e7e7a.html">Components</a></li>
+            <li><a href="e5ea466f7539fc44c9ef2cee394f45729a8e78c2d85f6341ec66cc72dcc2e51f.html">Iterations</a></li>
+            <li><a href="3d2871ef9911e9892794a9042e262e6b82ae98dff337dd2d2e4d80be2072e38e.html">Stories</a></li>
+            <li><a href="history.html">History</a></li>
+        </ul>
+        <br style="clear:left"/>
+    </div>
+
+    <div class="clr"></div>
+    <div id="contentbody">
+        <div class="titlebar">
+        <div class="story-title">
+            <table width="1005">
+                <td width="50"><img class="story-outcome-icon" src="images/success.png" width="25" height="25"/> </td>
+                <td width="%"><span class="test-case-title"><span
+                        class="success-color">Looking up the definition of various words<span class="related-issue-title"></span></span></span>
+                </td>
+                <td width="100"><span class="test-case-duration"><span class="greentext">31.93s</span></span>
+                </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div>
+                            <h3>Story:  Lookup Definitions</h3>
+                            <div class="requirementNarrativeTitle">
+                            In order to understand what I am reading about<br>As a reader<br>I want to be able to look up definitions of words<br>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <a class="tagLink" href="c8696cf875b046c418d7dd20c79120a531a6c4153ff27ba60464be76c7b850d8.html">Learn word definitions (capability)</a>
+                        <a class="tagLink" href="a35b59f81a00b8c1e4f34a0ab2015a0984e8be8f43500844f04de0bd75fa7980.html">Lookup definitions (story)</a>
+                        <a class="tagLink" href="8efdbaa56e91ed3cc5960cde98fb83fd53823822449312eb991b7536147e1810.html">dictionary (component)</a>
+                        <a class="tagLink" href="7fbd588d74bb83fa3d37c52f7c00d881fbe601415e18f224170e07155cf55394.html">sprint-1 (iteration)</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <div class="clr"></div>
+
+        <div class="story-title">
+            <h3>Scenario:</h3>
+            <div class="scenario">Given the user does not know the meaning of the word '{apple}'<br>When the user looks up the definition of the word '{apple}'<br>Then they should obtain a definition containing the words '{A common, round fruit}'</div>
+
+        </div>
+
+
+    <div id="beforetable"></div>
+    <div id="contenttilttle">
+
+	 <div class="slider-wrapper theme-default">
+		<div id="slider">
+                <img src="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b417.png" alt="" title="Consults the online dictionary" width="1245"/>
+                <img src="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b418.png" alt="" title="Consults the online dictionary" width="1245"/>
+                <img src="screenshot-f212e728d3a4e4cdcdf69bfdc951e0dc87c7846f1d4a1c487d9cf3fad542b88922.png" alt="" title="Enters: {apple}" width="1245"/>
+                <img src="screenshot-f212e728d3a4e4cdcdf69bfdc951e0dc87c7846f1d4a1c487d9cf3fad542b88923.png" alt="" title="Enters: {apple}" width="1245"/>
+                <img src="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63324.png" alt="" title="Starts search" width="1245"/>
+                <img src="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63325.png" alt="" title="Starts search" width="1245"/>
+                <img src="screenshot-a05ad8a00f9a8f5c6d0ba099eba2560264698c5b453c2be9ed356f10faf5acd429.png" alt="" title="Should see a definition containing: {A common, round fruit}" width="1245"/>
+                <img src="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b434.png" alt="" title="Consults the online dictionary" width="1245"/>
+                <img src="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b435.png" alt="" title="Consults the online dictionary" width="1245"/>
+                <img src="screenshot-f7d1e949f25fa637f3f6edcf0bf0c68791505ef258d69bb625bfa48798582aa739.png" alt="" title="Enters: {fig}" width="1245"/>
+                <img src="screenshot-f7d1e949f25fa637f3f6edcf0bf0c68791505ef258d69bb625bfa48798582aa740.png" alt="" title="Enters: {fig}" width="1245"/>
+                <img src="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63341.png" alt="" title="Starts search" width="1245"/>
+                <img src="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63342.png" alt="" title="Starts search" width="1245"/>
+                <img src="screenshot-14f096d6a56e636c79f0aa985251e653f7fa1144c2596110acc4216a35b9225846.png" alt="" title="Should see a definition containing: {The fruit of the fig tree}" width="1245"/>
+                <img src="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b451.png" alt="" title="Consults the online dictionary" width="1245"/>
+                <img src="screenshot-eda6387de3a04fa33b9e1cb824a81f2d0e42bb995544f8448db26a2cb4d8e3b452.png" alt="" title="Consults the online dictionary" width="1245"/>
+                <img src="screenshot-3119f5f64893236b05b475a4beaa98ce9a4b461a32492c9760854afe6808106a56.png" alt="" title="Enters: {pear}" width="1245"/>
+                <img src="screenshot-3119f5f64893236b05b475a4beaa98ce9a4b461a32492c9760854afe6808106a57.png" alt="" title="Enters: {pear}" width="1245"/>
+                <img src="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63358.png" alt="" title="Starts search" width="1245"/>
+                <img src="screenshot-a073552d1159175b376073fd46e10ed20c3462cc77ea0c31687d9619e535c63359.png" alt="" title="Starts search" width="1245"/>
+                <img src="screenshot-148da172069c8f914437daa08a7c591c929c2a988e9d883b2da0270a60b4f63f63.png" alt="" title="Should see a definition containing: {An edible fruit produced by the pear tree}" width="1245"/>
+        </div>
+	  </div>
+
+
+    </div>
+</div>
+<div id="beforefooter"></div>
+<div id="bottomfooter"></div>
+
+</body>
+</html>
