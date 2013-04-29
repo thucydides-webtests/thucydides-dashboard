@@ -1,8 +1,7 @@
-package net.thucydides.core.reports.dashboard
+package net.thucydides.reports.dashboard
 
 import com.github.goldin.spock.extensions.tempdir.TempDir
-import net.thucydides.core.reports.dashboard.pages.DashboardPage
-import net.thucydides.reports.dashboard.HtmlDashboardReporter
+import net.thucydides.reports.dashboard.pages.DashboardPage
 import spock.lang.Specification
 
 class WhenGeneratingTheDashboardReport extends Specification {
@@ -30,6 +29,15 @@ UI Project:
 
 """
 
+    def DashboardPage dashboardPage
+
+
+    def cleanup() {
+        if (dashboardPage) {
+            dashboardPage.close()
+        }
+    }
+
     def "should generate a dashboard report in the output directory"() {
         given:
             def reporter = new HtmlDashboardReporter("SOMEPROJECT",outputDirectory, streamed(multiProjectConfiguration))
@@ -45,7 +53,7 @@ UI Project:
         when:
             reporter.generateReportsForTestResultsFrom(sourceDirectory)
             def dashboard = new File(outputDirectory,"dashboard.html")
-            DashboardPage dashboardPage = new DashboardPage(dashboard)
+            dashboardPage = new DashboardPage(dashboard)
             dashboardPage.open()
         then:
             dashboardPage.projectHeadings == ["Dictionary Project","UI Project"]
@@ -63,7 +71,7 @@ UI Project:
         when:
             reporter.generateReportsForTestResultsFrom(sourceDirectory)
             def dashboard = new File(outputDirectory,"dashboard.html")
-            DashboardPage dashboardPage = new DashboardPage(dashboard)
+            dashboardPage = new DashboardPage(dashboard)
             dashboardPage.open()
             dashboardPage.selectProject(1)
         then:

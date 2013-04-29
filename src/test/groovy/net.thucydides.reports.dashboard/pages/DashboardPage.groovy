@@ -1,10 +1,10 @@
-package net.thucydides.core.reports.dashboard.pages
+package net.thucydides.reports.dashboard.pages
 
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.firefox.FirefoxDriver
 
-class DashboardPage {
+public class DashboardPage {
 
     private WebDriver driver;
     private final String dashboardPath
@@ -14,8 +14,12 @@ class DashboardPage {
     }
 
     def open() {
-        driver = new ChromeDriver()
+        driver = new FirefoxDriver()// HtmlUnitDriver(BrowserVersion.CHROME)
         driver.get("file://" + dashboardPath)
+    }
+
+    def close() {
+        driver.close()
     }
 
     def getProjectHeadings() {
