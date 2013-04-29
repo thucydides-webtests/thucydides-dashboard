@@ -1,5 +1,6 @@
 package net.thucydides.reports.dashboard.model;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import net.thucydides.core.model.ReportNamer;
 import net.thucydides.core.model.ReportType;
@@ -13,36 +14,50 @@ public class Section {
 
     private final String title;
     private final List<TestTag> tags;
+    private final Optional<String> filter;
     private final List<Section> subsections;
     private final List<Section> parents;
 
+    private static final Optional<String> NO_FILTER = Optional.absent();
+
     public Section withSubsections(List<Section> subsections) {
-        return new Section(title, tags, subsections, parents);
+        return new Section(title, tags, filter, subsections, parents);
     }
 
     public Section withParents(List<Section> parents) {
-        return new Section(title, tags, subsections, parents);
+        return new Section(title, tags, filter, subsections, parents);
     }
 
-    public Section(String title, List<TestTag> tags) {
+    public Section(String title, List<TestTag> tags, Optional<String> filter) {
         this.title = title;
+        this.filter = filter;
         this.tags = ImmutableList.copyOf(tags);
         this.subsections = ImmutableList.of();
         this.parents = ImmutableList.of();
     }
 
-    public Section(String title, List<TestTag> tags, List<Section> subsections) {
+    public Section(String title, List<TestTag> tags,  List<Section> subsections) {
+        this(title, tags, NO_FILTER, subsections);
+    }
+
+    public Section(String title, List<TestTag> tags, Optional<String> filter, List<Section> subsections) {
         this.title = title;
         this.tags = ImmutableList.copyOf(tags);
+        this.filter = filter;
         this.subsections = ImmutableList.copyOf(subsections);
         this.parents = ImmutableList.of();
     }
 
-    public Section(String title, List<TestTag> tags, List<Section> subsections, List<Section> parents) {
+    public Section(String title, List<TestTag> tags, Optional<String> filter, List<Section> subsections, List<Section> parents) {
         this.title = title;
+        this.filter = filter;
         this.tags = ImmutableList.copyOf(tags);
         this.subsections = ImmutableList.copyOf(subsections);
         this.parents = ImmutableList.copyOf(parents);
+    }
+
+    public Section withTags(List<TestTag> tags) {
+        return new Section(title, tags, filter, subsections, parents);
     }
 
     public String getTitle() {
@@ -50,15 +65,23 @@ public class Section {
     }
 
     public List<TestTag> getTags() {
-        return tags;
+        return ImmutableList.copyOf(tags);
+    }
+
+    public boolean hasFilter() {
+        return filter.isPresent();
+    }
+
+    public String getFilter() {
+        return filter.get();
     }
 
     public List<Section> getSubsections() {
-        return subsections;
+        return ImmutableList.copyOf(subsections);
     }
 
     public List<Section> getParents() {
-        return parents;
+        return ImmutableList.copyOf(parents);
     }
 
     public String getDirectoryName() {

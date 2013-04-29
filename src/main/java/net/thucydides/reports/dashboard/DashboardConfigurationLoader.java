@@ -1,11 +1,21 @@
 package net.thucydides.reports.dashboard;
 
 import ch.lambdaj.function.convert.Converter;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import net.thucydides.core.ThucydidesSystemProperty;
+import net.thucydides.core.guice.Injectors;
 import net.thucydides.core.model.TestTag;
+import net.thucydides.core.util.EnvironmentVariables;
+import net.thucydides.plugins.jira.service.JIRAConfiguration;
+import net.thucydides.plugins.jira.service.JIRAConnection;
+import net.thucydides.plugins.jira.service.SystemPropertiesJIRAConfiguration;
 import net.thucydides.reports.dashboard.model.Section;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
+import thucydides.plugins.jira.soap.RemoteIssue;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,6 +25,7 @@ import java.util.Set;
 
 import static ch.lambdaj.Lambda.convert;
 import static ch.lambdaj.Lambda.flatten;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * Loads a dashboard configuration from a YAML file.
@@ -23,6 +34,46 @@ public class DashboardConfigurationLoader {
 
     private static final String DEFAULT_DASHBOARD_CONFIGURATION_FILE = "dashboard.yml";
     private static final String SUBSECTIONS = "subsections";
+    private static final Optional<JIRAConfiguration> JIRA_NOT_CONFIGURED = Optional.absent();
+    private static final List<TestTag> NO_TAGS = ImmutableList.of();
+    private static final int MAX_RESULTS = 1000;
+
+    private final EnvironmentVariables environmentVariables;
+    private Optional<JIRAConfiguration> jiraConfiguration;
+    private JIRAConnection jiraConnection;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DashboardConfigurationLoader.class);
+
+    public DashboardConfigurationLoader() {
+        this(Injectors.getInjector().getInstance(EnvironmentVariables.class));
+    }
+
+    public DashboardConfigurationLoader(EnvironmentVariables environmentVariables) {
+        this.environmentVariables = environmentVariables;
+    }
+
+    public Optional<JIRAConfiguration> getJiraConfiguration() {
+        if (jiraConfiguration == null) {
+            if (jiraDefinedIn(environmentVariables)) {
+                JIRAConfiguration configuration = new SystemPropertiesJIRAConfiguration(environmentVariables); 
+                jiraConfiguration = Optional.of(configuration);
+            } else {
+                jiraConfiguration = JIRA_NOT_CONFIGURED;
+            }
+        }
+        return jiraConfiguration;
+    }
+
+    public JIRAConnection getJIRAConnection() {
+        if (jiraConnection == null) {
+            jiraConnection = new JIRAConnection(jiraConfiguration.get());
+        }
+        return jiraConnection;
+    }
+
+    private boolean jiraDefinedIn(EnvironmentVariables variables) {
+        return isNotEmpty(variables.getProperty(ThucydidesSystemProperty.JIRA_URL));
+    }
 
     /**
      * Load the default dashboard configuration, stored on a file called 'dashboard.yaml' at the root of the classpath.
@@ -40,7 +91,52 @@ public class DashboardConfigurationLoader {
     public DashboardConfiguration loadFrom(InputStream inputStream) {
         Map<String, Object> fields = (Map<String, Object>) new Yaml().load(inputStream);
         List<Section> sections = readSectionsFrom(fields, NO_PARENTS );
-        return new DashboardConfiguration(sections);
+        List<Section> sectionsWithFilteredTags = updateTagsUsingFiltersIn(sections);
+        return new DashboardConfiguration(sectionsWithFilteredTags);
+    }
+
+    private List<Section> updateTagsUsingFiltersIn(List<Section> sections) {
+        return convert(sections, toSectionsWithTagsFromFilters());
+    }
+
+    private Converter<Section, Section> toSectionsWithTagsFromFilters() {
+        return new Converter<Section, Section>() {
+
+            @Override
+            public Section convert(Section from) {
+                if (from.hasFilter()) {
+                    List<TestTag> filterTags = loadFilterTagsFor(from.getFilter());
+                    List<Section> subsectionsWithFilteredTags = updateTagsUsingFiltersIn(from.getSubsections());
+                    return from.withTags(filterTags)
+                               .withSubsections(subsectionsWithFilteredTags);
+                } else {
+                    return from;
+                }
+            }
+        };
+    }
+
+    private List<TestTag> loadFilterTagsFor(String filter) {
+        if (getJiraConfiguration().isPresent()) {
+            try {
+                String token = getJIRAConnection().getAuthenticationToken();
+                RemoteIssue[] matchingIssues = getJIRAConnection().getJiraSoapService().getIssuesFromJqlSearch(token, filter, MAX_RESULTS);
+                return convert(ImmutableList.copyOf(matchingIssues), toIssueKeyTags());
+            } catch (Exception e) {
+                LOGGER.warn("Failed to load tags from JIRA: " + e.getMessage());
+            }
+        }
+        return NO_TAGS;
+    }
+
+    private Converter<RemoteIssue, TestTag> toIssueKeyTags() {
+        return new Converter<RemoteIssue, TestTag>() {
+
+            @Override
+            public TestTag convert(RemoteIssue from) {
+                return TestTag.withName(from.getKey()).andType("issue");
+            }
+        };
     }
 
     private List<Section> readSectionsFrom(Map<String, Object> fields, List<Section> parents) {
@@ -49,11 +145,20 @@ public class DashboardConfigurationLoader {
         for (String sectionTitle : sectionTitles) {
             Object sectionValues = fields.get(sectionTitle);
             List<TestTag> tags = readTagsFrom(sectionValues);
-            Section section = new Section(sectionTitle, tags);
+            Optional<String> filter = readFilterFrom(sectionValues);
+            Section section = new Section(sectionTitle, tags, filter);
             List<Section> subsections = readSubsectionsFrom(sectionValues, getParents(parents, section));
             sections.add(section.withSubsections(subsections).withParents(parents));
         }
-        return sections;
+        return ImmutableList.copyOf(sections);
+    }
+
+    private Optional<String> readFilterFrom(Object sectionValues) {
+        if (isMappedFieldValues(sectionValues)) {
+            return Optional.fromNullable((String)((Map)sectionValues).get("filter"));
+        } else {
+            return Optional.absent();
+        }
     }
 
     private List<Section> getParents(List<Section> parents, Section section) {
@@ -65,7 +170,7 @@ public class DashboardConfigurationLoader {
     private List<TestTag> readTagsFrom(Object sectionValues) {
         if (containsTags(sectionValues)) {
             return convertToTags(sectionValues);
-        } else if (isMultipleFieldValues(sectionValues)) {
+        } else if (isMappedFieldValues(sectionValues)) {
             return extractTagFieldFrom((Map)sectionValues);
         } else {
             return ImmutableList.of();
@@ -114,7 +219,7 @@ public class DashboardConfigurationLoader {
         }
     }
 
-    private boolean isMultipleFieldValues(Object fieldValue) {
+    private boolean isMappedFieldValues(Object fieldValue) {
         return (fieldValue != null) && Map.class.isAssignableFrom(fieldValue.getClass());
     }
 
@@ -128,7 +233,7 @@ public class DashboardConfigurationLoader {
         } else if (isASingleTag(fieldValue)) {
             return ImmutableList.of(TestTag.withValue(fieldValue.toString()));
         } else {
-            return ImmutableList.of();
+            return NO_TAGS;
         }
     }
 

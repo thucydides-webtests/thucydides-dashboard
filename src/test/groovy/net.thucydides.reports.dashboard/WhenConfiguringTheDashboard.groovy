@@ -1,4 +1,4 @@
-package net.thucydides.core.reports.dashboard
+package net.thucydides.reports.dashboard
 
 import net.thucydides.core.digest.Digest
 import net.thucydides.core.model.TestTag
@@ -134,15 +134,31 @@ Section 2: ["project:PROJ2","project:PROJ3"]
 
     def "should load sections with tags in long form"() {
         given:
-        def configSource =
-"""
+            def configSource =
+    """
+    Section 1:
+      tags: ["project:P1", "project:P2"]
+    """
+        when:
+            def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
+        then:
+            dashboardConfiguration.sections[0].tags == [TestTag.withValue("project:P1"),TestTag.withValue("project:P2")]
+        and:
+            !dashboardConfiguration.sections[0].hasFilter()
+    }
+
+    def "should load sections with JQL filters rather than tags"() {
+        given:
+            def configSource = """
 Section 1:
-  tags: ["project:P1", "project:P2"]
+  filter: "project in (P1, P2)"
 """
         when:
-        def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
+            def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
         then:
-        dashboardConfiguration.sections[0].tags == [TestTag.withValue("project:P1"),TestTag.withValue("project:P2")]
+            dashboardConfiguration.sections[0].hasFilter()
+        and:
+            dashboardConfiguration.sections[0].filter == "project in (P1, P2)"
     }
 
     def "tags section should be optional"() {
@@ -227,6 +243,32 @@ Section 2: "project:P2"
         dashboardConfiguration.sections[0].subsections[0].tags == [TestTag.withValue("iteration:I1")]
         and:
         dashboardConfiguration.sections[0].subsections[1].tags == [TestTag.withValue("iteration:I2"),TestTag.withValue("iteration:I3")]
+    }
+
+    def "subsections can have filters"() {
+        given:
+        def configSource =
+            """
+Section 1:
+  tags: "project:P1"
+  subsections:
+    - Section 1.1:
+        filter: "iteration = I1"
+    - Section 1.2:
+        filter: "iteration in (I2, I3)"
+    - Section 1.3:
+        tags: "iteration:I4"
+
+Section 2: "project:P2"
+"""
+        when:
+        def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
+        then:
+        dashboardConfiguration.sections.size() == 2
+        and:
+        dashboardConfiguration.sections[0].subsections[0].filter == "iteration = I1"
+        and:
+        dashboardConfiguration.sections[0].subsections[1].filter == "iteration in (I2, I3)"
     }
 
     def "subsections can have sub-subsections"() {
