@@ -1,6 +1,7 @@
 package net.thucydides.reports.dashboard
 
 import com.github.goldin.spock.extensions.tempdir.TempDir
+import net.thucydides.maven.plugins.ThucydidesDashboardMojo
 import net.thucydides.reports.dashboard.pages.DashboardPage
 import spock.lang.Specification
 
@@ -75,6 +76,24 @@ UI Project:
             dashboardPage.open()
             dashboardPage.selectProject(1)
         then:
+            dashboardPage.title == 'Thucydides Reports'
+    }
+
+    def "should generate a dashboard report when the Maven plugin is called"() {
+        given: "a maven plugin"
+            def mojo = new ThucydidesDashboardMojo()
+            mojo.projectKey = "MY-PROJECT"
+            mojo.sourceDirectory = sourceDirectory
+            mojo.outputDirectory = outputDirectory
+        when: "we generate the report"
+            mojo.execute()
+            def dashboard = new File(outputDirectory,"dashboard.html")
+            dashboardPage = new DashboardPage(dashboard)
+            dashboardPage.open()
+            dashboardPage.selectProject(1)
+        then: "the dashboard should exist"
+            dashboard.exists()
+        and: "the dashboard should be correctly formed"
             dashboardPage.title == 'Thucydides Reports'
     }
 

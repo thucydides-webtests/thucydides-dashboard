@@ -1,9 +1,13 @@
 Section 1:
+  filter: "project in (P1, P2)"
   tags: ["project:P1", "project:P2"]
   subsections:
     - Section 1.1:
+        filter: "sprint = I1"
         tags: "iteration:I1"
     - Section 1.2:
+        filter: "sprint = I2"
         tags: "iteration:I2"
 Section 2:
+  filter: "project = P2"
   tags: "project:P2"

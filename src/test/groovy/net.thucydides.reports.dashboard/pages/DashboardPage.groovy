@@ -2,6 +2,7 @@ package net.thucydides.reports.dashboard.pages
 
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 
 public class DashboardPage {
@@ -14,7 +15,7 @@ public class DashboardPage {
     }
 
     def open() {
-        driver = new FirefoxDriver()// HtmlUnitDriver(BrowserVersion.CHROME)
+        driver = new ChromeDriver()
         driver.get("file://" + dashboardPath)
     }
 

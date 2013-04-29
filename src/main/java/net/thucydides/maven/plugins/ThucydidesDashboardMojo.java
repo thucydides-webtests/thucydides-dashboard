@@ -7,9 +7,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 import java.io.IOException;
 
 /**
- * Generate aggregate XML acceptance test reports.
+ * Generate the Thucydides multi-project dashboard
  * 
- * @goal aggregate
+ * @goal dashboard
  * @phase verify
  */
 public class ThucydidesDashboardMojo extends ThucydidesMojo {
@@ -20,9 +20,9 @@ public class ThucydidesDashboardMojo extends ThucydidesMojo {
         prepareExecution();
 
         try {
-            generateHtmlStoryReports();
+            generateDashboard();
         } catch (IOException e) {
-            throw new MojoExecutionException("Error generating aggregate thucydides reports", e);
+            throw new MojoExecutionException("Error generating thucydides dashboard", e);
         }
     }
 
@@ -34,7 +34,7 @@ public class ThucydidesDashboardMojo extends ThucydidesMojo {
 
     }
 
-    private void generateHtmlStoryReports() throws IOException {
+    private void generateDashboard() throws IOException {
         getReporter().setOutputDirectory(outputDirectory);
         getReporter().generateReportsForTestResultsFrom(sourceDirectory);
     }
