@@ -21,10 +21,6 @@ public class HtmlDashboardReporter extends HtmlReporter {
     private final String DASHBOARD_REPORT = "freemarker/dashboard.ftl";
     private final String DASHBOARD_REPORT_NAME = "dashboard.html";
 
-    public HtmlDashboardReporter(String projectName, File outputDirectory) {
-        this(projectName, outputDirectory, new DashboardConfigurationLoader().loadDefault());
-    }
-
     public HtmlDashboardReporter(String projectName, File outputDirectory, InputStream configurationSource) {
         this(projectName, outputDirectory, new DashboardConfigurationLoader().loadFrom(configurationSource));
     }
@@ -59,7 +55,7 @@ public class HtmlDashboardReporter extends HtmlReporter {
 
     private void generateReportsForSections(TestOutcomes testOutcomes, List<Section> sections) throws IOException {
         for(Section section : sections) {
-            TestOutcomes sectionOutcomes = testOutcomes.withTags(section.getTags());
+            TestOutcomes sectionOutcomes = testOutcomes.withTags(section.getTags()).withLabel(section.getTitle());
             generateSectionReport(section, sectionOutcomes);
             generateReportsForSections(sectionOutcomes, section.getSubsections());
         }

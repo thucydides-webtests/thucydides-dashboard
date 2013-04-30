@@ -9,13 +9,6 @@ class WhenGeneratingReportsForDashboardSections extends Specification {
 
     @TempDir File outputDirectory
 
-    def "should load configuration from dashboard.yml by default"() {
-        when:
-            def reporter = new HtmlDashboardReporter("SOMEPROJECT",outputDirectory)
-        then:
-            reporter.configuration.sections.collect{ it.title } == ["Section 1","Section 2"]
-    }
-
     def simpleConfiguration = """
 Sprint 1: "iteration:sprint-1"
 Sprint 2: "iteration:sprint-2"

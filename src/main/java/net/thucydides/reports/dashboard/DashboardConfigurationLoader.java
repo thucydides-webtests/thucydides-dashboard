@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import thucydides.plugins.jira.soap.RemoteIssue;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  */
 public class DashboardConfigurationLoader {
 
-    private static final String DEFAULT_DASHBOARD_CONFIGURATION_FILE = "dashboard.yml";
+    private static final String DEFAULT_DASHBOARD_CONFIGURATION_FILE = "src/test/resources/dashboard.yml";
     private static final String SUBSECTIONS = "subsections";
     private static final Optional<JIRAConfiguration> JIRA_NOT_CONFIGURED = Optional.absent();
     private static final List<TestTag> NO_TAGS = ImmutableList.of();
@@ -75,15 +77,10 @@ public class DashboardConfigurationLoader {
         return isNotEmpty(variables.getProperty(ThucydidesSystemProperty.JIRA_URL));
     }
 
-    /**
-     * Load the default dashboard configuration, stored on a file called 'dashboard.yaml' at the root of the classpath.
-     */
-    public DashboardConfiguration loadDefault() {
-        return loadFrom(defaultConfigurationFile());
-    }
-
-    private static InputStream defaultConfigurationFile() {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_DASHBOARD_CONFIGURATION_FILE);
+    private static InputStream defaultConfigurationFile() throws FileNotFoundException {
+        System.out.println("Loading dashboard configuration from classpath: " + DEFAULT_DASHBOARD_CONFIGURATION_FILE);
+        LOGGER.info("Loading dashboard configuration from {}", DEFAULT_DASHBOARD_CONFIGURATION_FILE);
+        return new FileInputStream(DEFAULT_DASHBOARD_CONFIGURATION_FILE);
     }
 
     private final static List<Section> NO_PARENTS = Lists.newArrayList();
@@ -162,7 +159,7 @@ public class DashboardConfigurationLoader {
     }
 
     private List<Section> getParents(List<Section> parents, Section section) {
-        List<Section> subsectionParents = new ArrayList(parents);
+        List<Section> subsectionParents = new ArrayList<Section>(parents);
         subsectionParents.add(section);
         return ImmutableList.copyOf(subsectionParents);
     }
@@ -185,7 +182,7 @@ public class DashboardConfigurationLoader {
                 List<Map<String,Object>> subsectionData = (List<Map<String,Object>>) sectionValueMap.get(SUBSECTIONS);
                 return flatten(convert(subsectionData, toSubsections(parents)));
             } else {
-                return readSectionsFrom((Map) sectionValueMap.get(SUBSECTIONS), parents);
+                return readSectionsFrom((Map<String, Object>) sectionValueMap.get(SUBSECTIONS), parents);
             }
         } else {
             return ImmutableList.of();

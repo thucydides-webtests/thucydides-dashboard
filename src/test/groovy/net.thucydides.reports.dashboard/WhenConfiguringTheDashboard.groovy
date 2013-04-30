@@ -10,20 +10,6 @@ class WhenConfiguringTheDashboard extends Specification {
 
     def dashboardConfigurationLoader = new DashboardConfigurationLoader()
 
-    def "should read a dashboard configuration file from a 'dashboard.groovy' file on the class path"() {
-        when:
-            def dashboardConfiguration = dashboardConfigurationLoader.loadDefault();
-        then:
-            dashboardConfiguration != null
-    }
-
-    def "user should provide a list of top-level dashboard projects"() {
-        when:
-            def dashboardConfiguration = dashboardConfigurationLoader.loadDefault();
-        then:
-            dashboardConfiguration != null
-    }
-
     def "should load section titles"() {
         given:
             def configSource = 'Section 1: "project:PROJ1"'

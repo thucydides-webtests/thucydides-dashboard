@@ -20,7 +20,7 @@ public class DashboardPage {
     }
 
     def close() {
-        driver.close()
+        driver.quit()
     }
 
     def getProjectHeadings() {
