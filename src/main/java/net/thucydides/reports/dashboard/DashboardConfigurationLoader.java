@@ -31,7 +31,7 @@ public class DashboardConfigurationLoader {
     private static final Optional<JIRAConfiguration> JIRA_NOT_CONFIGURED = Optional.absent();
     private static final List<TestTag> NO_TAGS = ImmutableList.of();
 
-    private final FilterService filterService;
+    private FilterService filterService;
 
     public DashboardConfigurationLoader() {
         this(Injectors.getInjector().getInstance(EnvironmentVariables.class));
