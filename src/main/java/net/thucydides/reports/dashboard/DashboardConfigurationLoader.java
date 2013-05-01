@@ -4,21 +4,15 @@ import ch.lambdaj.function.convert.Converter;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import net.thucydides.core.ThucydidesSystemProperty;
 import net.thucydides.core.guice.Injectors;
 import net.thucydides.core.model.TestTag;
 import net.thucydides.core.util.EnvironmentVariables;
 import net.thucydides.plugins.jira.service.JIRAConfiguration;
-import net.thucydides.plugins.jira.service.JIRAConnection;
-import net.thucydides.plugins.jira.service.SystemPropertiesJIRAConfiguration;
+import net.thucydides.reports.dashboard.jira.JiraFilterService;
 import net.thucydides.reports.dashboard.model.Section;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
-import thucydides.plugins.jira.soap.RemoteIssue;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,60 +21,24 @@ import java.util.Set;
 
 import static ch.lambdaj.Lambda.convert;
 import static ch.lambdaj.Lambda.flatten;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * Loads a dashboard configuration from a YAML file.
  */
 public class DashboardConfigurationLoader {
 
-    private static final String DEFAULT_DASHBOARD_CONFIGURATION_FILE = "src/test/resources/dashboard.yml";
     private static final String SUBSECTIONS = "subsections";
     private static final Optional<JIRAConfiguration> JIRA_NOT_CONFIGURED = Optional.absent();
     private static final List<TestTag> NO_TAGS = ImmutableList.of();
-    private static final int MAX_RESULTS = 1000;
 
-    private final EnvironmentVariables environmentVariables;
-    private Optional<JIRAConfiguration> jiraConfiguration;
-    private JIRAConnection jiraConnection;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DashboardConfigurationLoader.class);
+    private final FilterService filterService;
 
     public DashboardConfigurationLoader() {
         this(Injectors.getInjector().getInstance(EnvironmentVariables.class));
     }
 
     public DashboardConfigurationLoader(EnvironmentVariables environmentVariables) {
-        this.environmentVariables = environmentVariables;
-    }
-
-    public Optional<JIRAConfiguration> getJiraConfiguration() {
-        if (jiraConfiguration == null) {
-            if (jiraDefinedIn(environmentVariables)) {
-                JIRAConfiguration configuration = new SystemPropertiesJIRAConfiguration(environmentVariables); 
-                jiraConfiguration = Optional.of(configuration);
-            } else {
-                jiraConfiguration = JIRA_NOT_CONFIGURED;
-            }
-        }
-        return jiraConfiguration;
-    }
-
-    public JIRAConnection getJIRAConnection() {
-        if (jiraConnection == null) {
-            jiraConnection = new JIRAConnection(jiraConfiguration.get());
-        }
-        return jiraConnection;
-    }
-
-    private boolean jiraDefinedIn(EnvironmentVariables variables) {
-        return isNotEmpty(variables.getProperty(ThucydidesSystemProperty.JIRA_URL));
-    }
-
-    private static InputStream defaultConfigurationFile() throws FileNotFoundException {
-        System.out.println("Loading dashboard configuration from classpath: " + DEFAULT_DASHBOARD_CONFIGURATION_FILE);
-        LOGGER.info("Loading dashboard configuration from {}", DEFAULT_DASHBOARD_CONFIGURATION_FILE);
-        return new FileInputStream(DEFAULT_DASHBOARD_CONFIGURATION_FILE);
+        filterService = new JiraFilterService(environmentVariables);
     }
 
     private final static List<Section> NO_PARENTS = Lists.newArrayList();
@@ -93,19 +51,23 @@ public class DashboardConfigurationLoader {
     }
 
     private List<Section> updateTagsUsingFiltersIn(List<Section> sections) {
-        return convert(sections, toSectionsWithTagsFromFilters());
+        return convert(sections, toSectionsWithTagsFromFilters(""));
     }
 
-    private Converter<Section, Section> toSectionsWithTagsFromFilters() {
+    private List<Section> updateTagsUsingFiltersIn(List<Section> sections, String parentFilter) {
+        return convert(sections, toSectionsWithTagsFromFilters(parentFilter));
+    }
+
+    private Converter<Section, Section> toSectionsWithTagsFromFilters(final String parentFilter) {
         return new Converter<Section, Section>() {
 
             @Override
             public Section convert(Section from) {
                 if (from.hasFilter()) {
-                    List<TestTag> filterTags = loadFilterTagsFor(from.getFilter());
-                    List<Section> subsectionsWithFilteredTags = updateTagsUsingFiltersIn(from.getSubsections());
-                    return from.withTags(filterTags)
-                               .withSubsections(subsectionsWithFilteredTags);
+                    String filter = joinFilters(parentFilter, from.getFilter());
+                    List<TestTag> filterTags = filterService.loadTagsByFilter(from.getFilter());
+                    List<Section> subsectionsWithFilteredTags = updateTagsUsingFiltersIn(from.getSubsections(), filter);
+                    return from.withTags(filterTags).withSubsections(subsectionsWithFilteredTags);
                 } else {
                     return from;
                 }
@@ -113,27 +75,12 @@ public class DashboardConfigurationLoader {
         };
     }
 
-    private List<TestTag> loadFilterTagsFor(String filter) {
-        if (getJiraConfiguration().isPresent()) {
-            try {
-                String token = getJIRAConnection().getAuthenticationToken();
-                RemoteIssue[] matchingIssues = getJIRAConnection().getJiraSoapService().getIssuesFromJqlSearch(token, filter, MAX_RESULTS);
-                return convert(ImmutableList.copyOf(matchingIssues), toIssueKeyTags());
-            } catch (Exception e) {
-                LOGGER.warn("Failed to load tags from JIRA: " + e.getMessage());
-            }
+    private String joinFilters(String parentFilter, String filter) {
+        if (StringUtils.isNotEmpty(parentFilter)) {
+            return String.format("(%s) and (%s)", parentFilter, filter);
+        } else {
+            return filter;
         }
-        return NO_TAGS;
-    }
-
-    private Converter<RemoteIssue, TestTag> toIssueKeyTags() {
-        return new Converter<RemoteIssue, TestTag>() {
-
-            @Override
-            public TestTag convert(RemoteIssue from) {
-                return TestTag.withName(from.getKey()).andType("issue");
-            }
-        };
     }
 
     private List<Section> readSectionsFrom(Map<String, Object> fields, List<Section> parents) {
