@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <!-- Le styles -->
+    <script src="resources/report-resources/scripts/jquery.js"></script>
+    <script src="resources/report-resources/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="resources/report-resources/jqplot/jquery.jqplot.min.css"/>
+    <script type="text/javascript" src="resources/report-resources/jqplot/jquery.jqplot.min.js"></script>
+    <script type="text/javascript" src="resources/report-resources/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+
+    <link href="resources/report-resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        .indent {
+            padding-left: 9px;
+        }
+
+        .hero-unit.dashboard-header {
+            padding: 30px;
+        }
+
+    </style>
+    <link href="resources/report-resources/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <script class="code" type="text/javascript">$(document).ready(function () {
+        var project_1_test_results_plot = $.jqplot('project_1_pie_chart', [
+            [
+                ['Passing', 3],
+                ['Pending', 2],
+                ['Failing', 1],
+                ['Errors',  1]
+            ]
+        ], {
+
+            gridPadding:{top:0, bottom:38, left:0, right:0},
+            seriesColors:['#30cb23', '#a2f2f2', '#f8001f','#fc6e1f'],
+            seriesDefaults:{
+                renderer:$.jqplot.PieRenderer,
+                trendline:{ show:false },
+                rendererOptions:{ padding:8, showDataLabels:true }
+            },
+            legend:{
+                show:true,
+                placement:'outside',
+                rendererOptions:{
+                    numberRows:1
+                },
+                location:'s',
+                marginTop:'15px'
+            },
+            series:[
+                {label:'5 / 5 tests passed' },
+                {label:'0 / 5 tests pending'},
+                {label:'0 / 5 tests failed'},
+                {label:'0 / 5 errors'}
+            ]
+        });
+
+        var project_2_test_results_plot = $.jqplot('project_2_pie_chart', [
+            [
+                ['Passing', 5],
+                ['Pending', 2],
+                ['Failing', 1],
+                ['Errors',  1]
+            ]
+        ], {
+
+            gridPadding:{top:0, bottom:38, left:0, right:0},
+            seriesColors:['#30cb23', '#a2f2f2', '#f8001f','#fc6e1f'],
+            seriesDefaults:{
+                renderer:$.jqplot.PieRenderer,
+                trendline:{ show:false },
+                rendererOptions:{ padding:8, showDataLabels:true }
+            },
+            legend:{
+                show:true,
+                placement:'outside',
+                rendererOptions:{
+                    numberRows:1
+                },
+                location:'s',
+                marginTop:'15px'
+            },
+            series:[
+                {label:'5 / 5 tests passed' },
+                {label:'0 / 5 tests pending'},
+                {label:'0 / 5 tests failed'},
+                {label:'0 / 5 errors'}
+            ]
+        });
+
+        var project_3_test_results_plot = $.jqplot('project_3_pie_chart', [
+            [
+                ['Passing', 5],
+                ['Pending', 2],
+                ['Failing', 3],
+                ['Errors',  1]
+            ]
+        ], {
+
+            gridPadding:{top:0, bottom:38, left:0, right:0},
+            seriesColors:['#30cb23', '#a2f2f2', '#f8001f','#fc6e1f'],
+            seriesDefaults:{
+                renderer:$.jqplot.PieRenderer,
+                trendline:{ show:false },
+                rendererOptions:{ padding:8, showDataLabels:true }
+            },
+            legend:{
+                show:true,
+                placement:'outside',
+                rendererOptions:{
+                    numberRows:1
+                },
+                location:'s',
+                marginTop:'15px'
+            },
+            series:[
+                {label:'5 / 5 tests passed' },
+                {label:'0 / 5 tests pending'},
+                {label:'0 / 5 tests failed'},
+                {label:'0 / 5 errors'}
+            ]
+        });
+
+    })
+    ;
+    </script>
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li class="nav-header"><a href="#">Project 1</a></li>
+                    <li class="indent"><a href="#">Sprint 1</a></li>
+                    <li class="indent"><a href="#">Sprint 2</a></li>
+                    <li class="nav-header"><a href="#">Project 2</a></li>
+                    <li class="indent"><a href="#">Sprint 1</a></li>
+                    <li class="indent"><a href="#">Sprint 2</a></li>
+                    <li class="nav-header"><a href="#">Project 3</a></li>
+                    <li class="indent"><a href="#">Sprint 1</a></li>
+                    <li class="indent"><a href="#">Sprint 2</a></li>
+                    <li class="indent"><a href="#">Sprint 3</a></li>
+                </ul>
+            </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+            <div class="hero-unit dashboard-header">
+                <h1>Project Dashboard</h1>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <h2>Project 1</h2>
+                    <div id="project_1_pie_chart"></div>
+                    <p><a class="btn" href="#">View detailed reports &raquo;</a></p>
+                </div><!--/span-->
+                <div class="span6">
+                    <h2>Project 2</h2>
+                    <div id="project_2_pie_chart"></div>
+                    <p><a class="btn" href="#">View detailed reports &raquo;</a></p>
+                </div><!--/span-->
+            </div><!--/row-->
+            <div class="row-fluid">
+                <div class="span6">
+                    <h2>Project 3</h2>
+                    <div id="project_3_pie_chart"></div>
+                    <p><a class="btn" href="#">View detailed reports &raquo;</a></p>
+                </div><!--/span-->
+                <!--<div class="span6">-->
+                    <!--<h2>Project 4</h2>-->
+                    <!--<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>-->
+                    <!--<p><a class="btn" href="#">View detailed reports &raquo;</a></p>-->
+                <!--</div>&lt;!&ndash;/span&ndash;&gt;-->
+            </div><!--/row-->
+        </div><!--/span-->
+    </div><!--/row-->
+
+
+</body>
+</html>
