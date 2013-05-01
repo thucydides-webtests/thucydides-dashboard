@@ -65,7 +65,7 @@ public class DashboardConfigurationLoader {
             public Section convert(Section from) {
                 if (from.hasFilter()) {
                     String filter = joinFilters(parentFilter, from.getFilter());
-                    List<TestTag> filterTags = filterService.loadTagsByFilter(from.getFilter());
+                    List<TestTag> filterTags = filterService.loadTagsByFilter(filter);
                     List<Section> subsectionsWithFilteredTags = updateTagsUsingFiltersIn(from.getSubsections(), filter);
                     return from.withTags(filterTags).withSubsections(subsectionsWithFilteredTags);
                 } else {
