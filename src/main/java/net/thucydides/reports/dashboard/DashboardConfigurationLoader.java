@@ -9,6 +9,7 @@ import net.thucydides.core.model.TestTag;
 import net.thucydides.core.util.EnvironmentVariables;
 import net.thucydides.plugins.jira.service.JIRAConfiguration;
 import net.thucydides.reports.dashboard.jira.JiraFilterService;
+import net.thucydides.reports.dashboard.model.ChartType;
 import net.thucydides.reports.dashboard.model.Section;
 import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
@@ -90,7 +91,8 @@ public class DashboardConfigurationLoader {
             Object sectionValues = fields.get(sectionTitle);
             List<TestTag> tags = readTagsFrom(sectionValues);
             Optional<String> filter = readFilterFrom(sectionValues);
-            Section section = new Section(sectionTitle, tags, filter);
+            ChartType chartType = readChartTypeFrom(sectionValues);
+            Section section = new Section(sectionTitle, tags, filter, chartType);
             List<Section> subsections = readSubsectionsFrom(sectionValues, getParents(parents, section));
             sections.add(section.withSubsections(subsections).withParents(parents));
         }
@@ -102,6 +104,21 @@ public class DashboardConfigurationLoader {
             return Optional.fromNullable((String)((Map)sectionValues).get("filter"));
         } else {
             return Optional.absent();
+        }
+    }
+
+    private ChartType readChartTypeFrom(Object sectionValues) {
+        String chartValue = null;
+        try {
+            if (isMappedFieldValues(sectionValues)) {
+                chartValue = ((String) ((Map)sectionValues).get("chart"));
+                if (StringUtils.isNotEmpty(chartValue)) {
+                    return ChartType.valueOf(chartValue.toUpperCase());
+                }
+            }
+            return ChartType.TESTS;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Unknown chart type: '" + chartValue + "'");
         }
     }
 

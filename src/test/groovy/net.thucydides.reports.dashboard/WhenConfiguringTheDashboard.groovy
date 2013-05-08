@@ -2,6 +2,7 @@ package net.thucydides.reports.dashboard
 
 import net.thucydides.core.digest.Digest
 import net.thucydides.core.model.TestTag
+import net.thucydides.reports.dashboard.model.ChartType
 import net.thucydides.reports.dashboard.model.Section
 import net.thucydides.reports.dashboard.DashboardConfigurationLoader
 import spock.lang.Specification
@@ -118,6 +119,28 @@ Section 2: ["project:PROJ2","project:PROJ3"]
         dashboardConfiguration.sections[1].tags == [TestTag.withValue("project:PROJ2"), TestTag.withValue("project:PROJ3")]
     }
 
+//    def "should allow multiple dashboard tabs"() {
+//        given:
+//        def configSource =
+//            """
+//Page: Projects
+//  Section 1: "project:PROJ1"
+//  Section 2: ["project:PROJ2","project:PROJ3"]
+//Page: Releases
+//  Section 1: "project:PROJ1"
+//  Section 2: ["project:PROJ2","project:PROJ3"]
+//Page: Components
+//  Section 1: "project:PROJ1"
+//  Section 2: ["project:PROJ2","project:PROJ3"]
+//"""
+//        when:
+//        def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
+//        then:
+//        dashboardConfiguration.sections[0].tags == [TestTag.withValue("project:PROJ1")]
+//        and:
+//        dashboardConfiguration.sections[1].tags == [TestTag.withValue("project:PROJ2"), TestTag.withValue("project:PROJ3")]
+//    }
+
     def "should load sections with tags in long form"() {
         given:
             def configSource =
@@ -146,6 +169,45 @@ Section 1:
         and:
             dashboardConfiguration.sections[0].filter == "project in (P1, P2)"
     }
+
+    def "should let you define a requirements chart type"() {
+        given:
+        def configSource = """
+Section 1:
+  filter: "project in (P1, P2)"
+"""
+        when:
+        def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
+        then:
+        dashboardConfiguration.sections[0].getChartType() == ChartType.TESTS
+    }
+
+    def "should report if the chart type is invalid"() {
+        given:
+        def configSource = """
+Section 1:
+  chart: "wrong-type"
+"""
+        when:
+        dashboardConfigurationLoader.loadFrom(streamed(configSource))
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message == "Unknown chart type: 'wrong-type'"
+    }
+
+    def "should use a test chart type by default"() {
+        given:
+        def configSource = """
+Section 1:
+  chart: "requirements"
+"""
+        when:
+        def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
+        then:
+        dashboardConfiguration.sections[0].getChartType() == ChartType.REQUIREMENTS
+    }
+
+
 
     def "tags section should be optional"() {
         given:
@@ -315,6 +377,57 @@ Sprint 2:
         dashboardConfiguration.sections[0].subsections.collect { it.title } == ["UI", "Dictionary"]
         and:
         dashboardConfiguration.sections[0].subsections.collect { it.title } == ["UI", "Dictionary"]
+    }
+
+    def "another more complex example of sections and subsections"() {
+        given:
+        def configSource ="""
+Once and Done:
+  filter: "project='ROLB Once and Done'"
+  subsections:
+    - Hopper:
+        subsections:
+          - Hopper F1-13:
+              filter: "'Hopper Version'='Hopper F1-13'"
+          - Hopper G1-13:
+              filter: "'Hopper Version'='Hopper G1-13'"
+    - Features(Epic):
+        filter: "type=Epic"
+    - Stories:
+        filter: "type=Story"
+
+Hopper F1-13:
+  filter: "'Hopper Version'='Hopper F1-13'"
+  subsections:
+    - Epic:
+        filter: "type=Epic"
+    - Stories:
+        filter: "type=Story"
+    - Projects:
+                subsections:
+                  - Two to Sign:
+                      filter: "Project = 'Two to Sign'"
+                  - Group Payments:
+                      filter: "Project = 'Group Payments'"
+
+Component Team:
+  filter: "Component='Small Change'"
+  subsections:
+    - Epic:
+        filter: "type=Epic"
+    - Stories:
+        filter: "type=Story"
+    - Hopper:
+                subsections:
+                  - Hopper F1-13:
+                      filter: "'Hopper Version'='Hopper F1-13'"
+                  - Hopper G1-13:
+                      filter: "'Hopper Version'='Hopper G1-13'"
+"""
+        when:
+        def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
+        then:
+        dashboardConfiguration.sections.size() == 3
     }
 
     InputStream streamed(String source) { new ByteArrayInputStream(source.bytes) }

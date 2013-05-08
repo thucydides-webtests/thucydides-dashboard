@@ -30,7 +30,7 @@ public class JiraClient {
         System.out.println("Searching with query " + query);
         JiraRestClientFactory factory = new AsynchronousJiraRestClientFactory();
         JiraRestClient restClient = factory.createWithBasicHttpAuthentication(new URI(url), username, password);
-        List<BasicIssue> issues = fetchAllIssues(restClient.getSearchClient(), query);
+        List< BasicIssue > issues = fetchAllIssues(restClient.getSearchClient(), query);
         System.out.println("Issues: ");
         for(BasicIssue issue : issues) { System.out.print(issue.getKey() + " ");}
         return issues;

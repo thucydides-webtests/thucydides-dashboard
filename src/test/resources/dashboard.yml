@@ -1,4 +1,5 @@
 Section 1:
+  chart: "requirements"
   filter: "project in (P1, P2)"
   tags: ["project:P1", "project:P2"]
   subsections:

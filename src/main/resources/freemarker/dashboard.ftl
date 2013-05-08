@@ -32,13 +32,22 @@
         <#list dashboard.sections as section>
 
             <#assign testOutcomes = allTestOutcomes.withTags(section.tags) >
+            <#assign requirements = requirementsFactory.buildRequirementsOutcomesFrom(testOutcomes) >
 
-            var test_results_plot = $.jqplot('project_${section_index}_pie_chart', [
+            var test_results_plot = $.jqplot('project_${section_index}_pie_chart',
+            [
                 [
+                <#if section.chartType == "TESTS">
                     ['Passing', ${testOutcomes.decimalPercentagePassingTestCount}],
                     ['Pending', ${testOutcomes.decimalPercentagePendingTestCount}],
                     ['Failing', ${testOutcomes.decimalPercentageFailingTestCount}],
                     ['Errors',  ${testOutcomes.decimalPercentageErrorTestCount}]
+                <#else>
+                    ['Passing', ${requirements.percentagePassingTestCount}],
+                    ['Pending', ${requirements.percentagePendingTestCount}],
+                    ['Failing', ${requirements.percentageFailingTestCount}],
+                    ['Errors',  ${requirements.percentageErrorTestCount}]
+                </#if>
                 ]
             ], {
 
@@ -59,10 +68,17 @@
                     marginTop:'15px'
                 },
                 series:[
-                    {label:'${testOutcomes.successCount} / ${testOutcomes.total} tests passed' },
-                    {label:'${testOutcomes.pendingCount} / ${testOutcomes.total} tests pending'},
-                    {label:'${testOutcomes.failureCount} / ${testOutcomes.total} tests failed'},
-                    {label:'${testOutcomes.errorCount} / ${testOutcomes.total} errors'}
+                    <#if section.chartType == "TESTS">
+                        {label:'${testOutcomes.successCount} / ${testOutcomes.total} tests passed' },
+                        {label:'${testOutcomes.pendingCount} / ${testOutcomes.total} tests pending'},
+                        {label:'${testOutcomes.failureCount} / ${testOutcomes.total} tests failed'},
+                        {label:'${testOutcomes.errorCount} / ${testOutcomes.total} errors'}
+                    <#else>
+                        {label:'${requirements.completedRequirementsCount} / ${requirements.requirementCount} requirements done' },
+                        {label:'${requirements.percentagePendingTestCount}% pending requirements'},
+                        {label:'${testOutcomes.decimalPercentageFailingTestCount}% failing requirements'},
+                        {label:'${requirements.percentageErrorTestCount}% requirements with errors'}
+                    </#if>
                 ]
             });
         </#list>
@@ -103,7 +119,7 @@
             </div>
 
             <#assign projectNumber = 0>
-            <#list dashboard.getSectionRows(3) as sectionRowElements>
+            <#list dashboard.getSectionRows(2) as sectionRowElements>
             <div class="row-fluid">
                 <#list sectionRowElements as section>
                     <div class="span6">

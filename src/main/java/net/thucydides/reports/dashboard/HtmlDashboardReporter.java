@@ -1,9 +1,14 @@
 package net.thucydides.reports.dashboard;
 
+import net.thucydides.core.guice.Injectors;
+import net.thucydides.core.issues.IssueTracking;
 import net.thucydides.core.reports.TestOutcomeLoader;
 import net.thucydides.core.reports.TestOutcomes;
 import net.thucydides.core.reports.html.HtmlAggregateStoryReporter;
 import net.thucydides.core.reports.html.HtmlReporter;
+import net.thucydides.core.requirements.RequirementsProviderService;
+import net.thucydides.core.requirements.reports.RequirementsOutcomes;
+import net.thucydides.core.requirements.reports.RequirmentsOutcomeFactory;
 import net.thucydides.reports.dashboard.model.Section;
 
 import java.io.File;
@@ -17,6 +22,8 @@ public class HtmlDashboardReporter extends HtmlReporter {
 
     private final String projectName;
     private final DashboardConfiguration configuration;
+    private final RequirmentsOutcomeFactory requirementsFactory;
+    private final IssueTracking issueTracking;
 
     private final String DASHBOARD_REPORT = "freemarker/dashboard.ftl";
     private final String DASHBOARD_REPORT_NAME = "dashboard.html";
@@ -29,6 +36,9 @@ public class HtmlDashboardReporter extends HtmlReporter {
         this.projectName = projectName;
         setOutputDirectory(outputDirectory);
         this.configuration = configuration;
+        this.issueTracking = Injectors.getInjector().getInstance(IssueTracking.class);
+        RequirementsProviderService requirementsProviderService = Injectors.getInjector().getInstance(RequirementsProviderService.class);
+        this.requirementsFactory = new RequirmentsOutcomeFactory(requirementsProviderService.getRequirementsProviders(),  issueTracking);
     }
 
     public String getProjectName() {
@@ -44,9 +54,15 @@ public class HtmlDashboardReporter extends HtmlReporter {
 
     private void generateDashboardReportFor(TestOutcomes outcomes) throws IOException {
 
+        RequirementsOutcomes requirementsOutcomes = requirementsFactory.buildRequirementsOutcomesFrom(outcomes);
+
         Map<String,Object> context = new HashMap<String,Object>();
         context.put("dashboard", configuration);
         context.put("allTestOutcomes", outcomes);
+        context.put("requirementsFactory", requirementsFactory);
+
+        requirementsOutcomes.getFailingRequirementsCount();
+
         String htmlContents = mergeTemplate(DASHBOARD_REPORT).usingContext(context);
         copyResourcesToOutputDirectory();
         writeReportToOutputDirectory(DASHBOARD_REPORT_NAME, htmlContents);
