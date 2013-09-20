@@ -15,6 +15,11 @@
     <properties>
         <groovy.version>2.0.5</groovy.version>
     </properties>
+    <scm>
+        <connection>scm:git:git@github.com:thucydides-webtests/thucydides-dashboard.git</connection>
+        <developerConnection>scm:git:git@github.com:thucydides-webtests/thucydides-dashboard.git</developerConnection>
+        <url>scm:git:git@github.com:thucydides-webtests/thucydides-dashboard.git</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
