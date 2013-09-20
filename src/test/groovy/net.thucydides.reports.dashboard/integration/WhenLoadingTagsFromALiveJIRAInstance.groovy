@@ -1,15 +1,8 @@
 package net.thucydides.reports.dashboard.integration
 
-import net.thucydides.core.model.TestTag
 import net.thucydides.core.util.MockEnvironmentVariables
-import net.thucydides.plugins.jira.client.SOAPSession
-import net.thucydides.plugins.jira.service.JIRAConnection
 import net.thucydides.reports.dashboard.DashboardConfigurationLoader
 import spock.lang.Specification
-import thucydides.plugins.jira.soap.JiraSoapService
-import thucydides.plugins.jira.soap.RemoteIssue
-
-import java.rmi.RemoteException
 
 class WhenLoadingTagsFromALiveJIRAInstance extends Specification {
 

@@ -4,7 +4,12 @@
     <groupId>net.thucydides.maven.plugins</groupId>
     <artifactId>thucydides-dashboard-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>0.9.125-SNAPSHOT</version>
+    <parent>
+        <artifactId>thucydides</artifactId>
+        <groupId>net.thucydides</groupId>
+        <version>0.9.210</version>
+    </parent>
+    <version>0.9.212-SNAPSHOT</version>
     <name>thucydides-dashboard Maven Mojo</name>
     <url>http://maven.apache.org</url>
     <properties>
@@ -35,17 +40,17 @@
         <dependency>
             <groupId>net.thucydides</groupId>
             <artifactId>thucydides-core</artifactId>
-            <version>0.9.123-4-SNAPSHOT</version>
+            <version>0.9.210</version>
         </dependency>
         <dependency>
             <groupId>net.thucydides.maven.plugins</groupId>
             <artifactId>maven-thucydides-plugin</artifactId>
-            <version>0.9.123-4-SNAPSHOT</version>
+            <version>0.9.210</version>
         </dependency>
         <dependency>
             <groupId>net.thucydides.plugins.jira</groupId>
             <artifactId>thucydides-jira-plugin</artifactId>
-            <version>0.9.120</version>
+            <version>0.9.212</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -98,6 +103,11 @@
             <artifactId>maven-plugin-testing-harness</artifactId>
             <version>1.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>15.0</version>
         </dependency>
     </dependencies>
     <build>
@@ -184,16 +194,4 @@
             </plugin>
         </plugins>
     </build>
-    <distributionManagement>
-        <repository>
-            <id>wakaleo-releases</id>
-            <name>Releases on Artifactory</name>
-            <url>http://wakaleo.artifactoryonline.com/wakaleo/simple/libs-release-public/</url>
-        </repository>
-        <snapshotRepository>
-            <id>wakaleo-snapshots</id>
-            <name>Snapshot Releases on Artifactory</name>
-            <url>http://wakaleo.artifactoryonline.com/wakaleo/simple/libs-snapshots-public/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

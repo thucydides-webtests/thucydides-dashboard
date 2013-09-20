@@ -38,15 +38,15 @@
             [
                 [
                 <#if section.chartType == "TESTS">
-                    ['Passing', ${testOutcomes.decimalPercentagePassingTestCount}],
-                    ['Pending', ${testOutcomes.decimalPercentagePendingTestCount}],
-                    ['Failing', ${testOutcomes.decimalPercentageFailingTestCount}],
-                    ['Errors',  ${testOutcomes.decimalPercentageErrorTestCount}]
+                    ['Passing', ${testOutcomes.getProportion().withResult("success")}],
+                    ['Pending', ${testOutcomes.getProportion().withIndeterminateResult()}],
+                    ['Failing', ${testOutcomes.getProportion().withResult("failure")}],
+                    ['Errors',  ${testOutcomes.getProportion().withResult("error")}]
                 <#else>
-                    ['Passing', ${requirements.percentagePassingTestCount}],
-                    ['Pending', ${requirements.percentagePendingTestCount}],
-                    ['Failing', ${requirements.percentageFailingTestCount}],
-                    ['Errors',  ${requirements.percentageErrorTestCount}]
+                    ['Passing', ${requirements.getProportion().withResult("success")}],
+                    ['Pending', ${requirements.getProportion().withIndeterminateResult()}],
+                    ['Failing', ${requirements.getProportion().withResult("failure")}],
+                    ['Errors',  ${requirements.getProportion().withResult("error")}]
                 </#if>
                 ]
             ], {
@@ -69,15 +69,15 @@
                 },
                 series:[
                     <#if section.chartType == "TESTS">
-                        {label:'${testOutcomes.successCount} / ${testOutcomes.total} tests passed' },
-                        {label:'${testOutcomes.pendingCount} / ${testOutcomes.total} tests pending'},
-                        {label:'${testOutcomes.failureCount} / ${testOutcomes.total} tests failed'},
-                        {label:'${testOutcomes.errorCount} / ${testOutcomes.total} errors'}
+                        {label:'${testOutcomes.getTotalTests().withResult("success")} / ${testOutcomes.total} tests passed' },
+                        {label:'${testOutcomes.getTotalTests().withIndeterminateResult()} / ${testOutcomes.total} tests pending'},
+                        {label:'${testOutcomes.getTotalTests().withResult("failure")} / ${testOutcomes.total} tests failed'},
+                        {label:'${testOutcomes.getTotalTests().withResult("error")} / ${testOutcomes.total} errors'}
                     <#else>
-                        {label:'${requirements.completedRequirementsCount} / ${requirements.requirementCount} requirements done' },
-                        {label:'${requirements.percentagePendingTestCount}% pending requirements'},
-                        {label:'${testOutcomes.decimalPercentageFailingTestCount}% failing requirements'},
-                        {label:'${requirements.percentageErrorTestCount}% requirements with errors'}
+                        {label:'${requirements.getTotal().withResult("success")} / ${requirements.requirementCount} requirements done' },
+                        {label:'${requirements.getProportion().withIndeterminateResult()}% pending requirements'},
+                        {label:'${testOutcomes.getProportion().withResult("failure")}% failing requirements'},
+                        {label:'${requirements.getProportion().withResult("error")}% requirements with errors'}
                     </#if>
                 ]
             });
