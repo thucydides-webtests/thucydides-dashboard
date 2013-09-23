@@ -8,7 +8,7 @@
         <groupId>net.thucydides</groupId>
         <version>0.9.210</version>
     </parent>
-    <version>0.9.214-SNAPSHOT</version>
+    <version>0.9.214</version>
     <name>thucydides-dashboard Maven Mojo</name>
     <url>http://maven.apache.org</url>
     <properties>
