@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.thucydides.maven.plugins</groupId>
     <artifactId>thucydides-dashboard-maven-plugin</artifactId>
@@ -9,7 +8,7 @@
         <groupId>net.thucydides</groupId>
         <version>0.9.210</version>
     </parent>
-    <version>0.9.212-SNAPSHOT</version>
+    <version>0.9.212</version>
     <name>thucydides-dashboard Maven Mojo</name>
     <url>http://maven.apache.org</url>
     <properties>
@@ -169,7 +168,7 @@
                 <version>1.4</version>
                 <configuration>
                     <providerSelection>1.8</providerSelection>
-                    <source/>
+                    <source />
                 </configuration>
                 <executions>
                     <execution>
