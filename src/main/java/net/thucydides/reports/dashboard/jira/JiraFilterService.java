@@ -1,11 +1,12 @@
 package net.thucydides.reports.dashboard.jira;
 
 import ch.lambdaj.function.convert.Converter;
-import com.atlassian.jira.rest.client.domain.BasicIssue;
 import com.google.common.collect.ImmutableList;
 import net.thucydides.core.ThucydidesSystemProperty;
 import net.thucydides.core.model.TestTag;
 import net.thucydides.core.util.EnvironmentVariables;
+import net.thucydides.plugins.jira.client.JerseyJiraClient;
+import net.thucydides.plugins.jira.domain.IssueSummary;
 import net.thucydides.reports.dashboard.FilterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class JiraFilterService implements FilterService {
 
     private static final List<TestTag> NO_TAGS = ImmutableList.of();
     private final String jiraUrl;
-    private JiraClient jiraClient;
+    private JerseyJiraClient jiraClient;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JiraFilterService.class);
 
@@ -27,7 +28,7 @@ public class JiraFilterService implements FilterService {
         String username = environmentVariables.getProperty(ThucydidesSystemProperty.JIRA_USERNAME);
         String password = environmentVariables.getProperty(ThucydidesSystemProperty.JIRA_PASSWORD);
 
-        jiraClient = new JiraClient(jiraUrl, username, password);
+        jiraClient = new JerseyJiraClient(jiraUrl, username, password);
     }
 
     public boolean isJiraConfigured() {
@@ -39,8 +40,8 @@ public class JiraFilterService implements FilterService {
         System.out.println("Loading filter tags for: " + filter);
         if (jiraUrl != null) {
             try {
-                Iterable<BasicIssue> matchingIssues = jiraClient.findIssuesByJQL(filter);
-                return convert(ImmutableList.copyOf(matchingIssues), toIssueKeyTags());
+                List<IssueSummary> matchingIssues = jiraClient.findByJQL(filter);
+                return convert(matchingIssues, toIssueKeyTags());
             } catch (Exception e) {
                 System.out.println("Failed to get issues from JIRA: " + e.getMessage());
                 LOGGER.error("Could not connect to JIRA to get issues", e);
@@ -49,11 +50,11 @@ public class JiraFilterService implements FilterService {
         return NO_TAGS;
     }
 
-    private Converter<BasicIssue, TestTag> toIssueKeyTags() {
-        return new Converter<BasicIssue, TestTag>() {
+    private Converter<IssueSummary, TestTag> toIssueKeyTags() {
+        return new Converter<IssueSummary, TestTag>() {
 
             @Override
-            public TestTag convert(BasicIssue from) {
+            public TestTag convert(IssueSummary from) {
                 return TestTag.withName(from.getKey()).andType("issue");
             }
         };
