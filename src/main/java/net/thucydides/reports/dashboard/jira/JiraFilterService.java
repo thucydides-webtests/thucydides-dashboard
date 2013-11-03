@@ -8,6 +8,8 @@ import net.thucydides.core.util.EnvironmentVariables;
 import net.thucydides.plugins.jira.client.JerseyJiraClient;
 import net.thucydides.plugins.jira.domain.IssueSummary;
 import net.thucydides.reports.dashboard.FilterService;
+import net.thucydides.plugins.jira.service.JIRAConfiguration;
+import net.thucydides.plugins.jira.service.SystemPropertiesJIRAConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,11 +26,12 @@ public class JiraFilterService implements FilterService {
     private static final Logger LOGGER = LoggerFactory.getLogger(JiraFilterService.class);
 
     public JiraFilterService(EnvironmentVariables environmentVariables) {
-        this.jiraUrl = environmentVariables.getProperty(ThucydidesSystemProperty.JIRA_URL);
-        String username = environmentVariables.getProperty(ThucydidesSystemProperty.JIRA_USERNAME);
-        String password = environmentVariables.getProperty(ThucydidesSystemProperty.JIRA_PASSWORD);
-
-        jiraClient = new JerseyJiraClient(jiraUrl, username, password);
+        JIRAConfiguration jiraConfiguration = new SystemPropertiesJIRAConfiguration(environmentVariables);
+        jiraClient = new JerseyJiraClient(jiraConfiguration.getJiraUrl(),
+                                          jiraConfiguration.getJiraUser(),
+                                          jiraConfiguration.getJiraPassword(),
+                                          jiraConfiguration.getProject());
+        jiraUrl = jiraConfiguration.getJiraUrl(); 
     }
 
     public boolean isJiraConfigured() {
