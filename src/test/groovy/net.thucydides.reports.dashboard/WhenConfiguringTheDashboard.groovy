@@ -119,28 +119,6 @@ Section 2: ["project:PROJ2","project:PROJ3"]
         dashboardConfiguration.sections[1].tags == [TestTag.withValue("project:PROJ2"), TestTag.withValue("project:PROJ3")]
     }
 
-//    def "should allow multiple dashboard tabs"() {
-//        given:
-//        def configSource =
-//            """
-//Page: Projects
-//  Section 1: "project:PROJ1"
-//  Section 2: ["project:PROJ2","project:PROJ3"]
-//Page: Releases
-//  Section 1: "project:PROJ1"
-//  Section 2: ["project:PROJ2","project:PROJ3"]
-//Page: Components
-//  Section 1: "project:PROJ1"
-//  Section 2: ["project:PROJ2","project:PROJ3"]
-//"""
-//        when:
-//        def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
-//        then:
-//        dashboardConfiguration.sections[0].tags == [TestTag.withValue("project:PROJ1")]
-//        and:
-//        dashboardConfiguration.sections[1].tags == [TestTag.withValue("project:PROJ2"), TestTag.withValue("project:PROJ3")]
-//    }
-
     def "should load sections with tags in long form"() {
         given:
             def configSource =
@@ -266,6 +244,33 @@ Section 2: "project:P2"
                 assert subsection.parents.collect { it.title } == ["Section 1"]
             }
 
+    }
+
+
+    def "report can have a title"() {
+        given:
+        def configSource =
+                """
+Title: My Super Dashboard
+Section 1:
+  tags: "project:P1"
+  subsections:
+    - Section 1.1:
+        tags: "iteration:I1"
+    - Section 1.2: "iteration:I2"
+    - Section 1.3:
+        tags: "iteration:I3"
+
+Section 2: "project:P2"
+"""
+        when:
+        def dashboardConfiguration = dashboardConfigurationLoader.loadFrom(streamed(configSource))
+        then:
+        dashboardConfiguration.title == "My Super Dashboard"
+        and:
+        dashboardConfiguration.sections.size() == 2
+        and:
+        dashboardConfiguration.sections[0].subsections.collect{ it.title } == ["Section 1.1","Section 1.2","Section 1.3"]
     }
 
     def "subsections can have tags"() {

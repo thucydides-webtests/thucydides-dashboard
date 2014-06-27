@@ -2,6 +2,7 @@ package net.thucydides.reports.dashboard;
 
 import net.thucydides.core.guice.Injectors;
 import net.thucydides.core.issues.IssueTracking;
+import net.thucydides.core.reports.OutcomeFormat;
 import net.thucydides.core.reports.TestOutcomeLoader;
 import net.thucydides.core.reports.TestOutcomes;
 import net.thucydides.core.reports.html.HtmlAggregateStoryReporter;
@@ -20,7 +21,10 @@ import java.util.Map;
 
 public class HtmlDashboardReporter extends HtmlReporter {
 
+    private static final String DEFAULT_FORMAT = "json";
+
     private final String projectName;
+    private final String format;
     private final DashboardConfiguration configuration;
     private final RequirmentsOutcomeFactory requirementsFactory;
     private final IssueTracking issueTracking;
@@ -29,16 +33,21 @@ public class HtmlDashboardReporter extends HtmlReporter {
     private final String DASHBOARD_REPORT_NAME = "dashboard.html";
 
     public HtmlDashboardReporter(String projectName, File outputDirectory, InputStream configurationSource) {
-        this(projectName, outputDirectory, new DashboardConfigurationLoader().loadFrom(configurationSource));
+        this(projectName, outputDirectory, configurationSource, DEFAULT_FORMAT);
     }
 
-    protected HtmlDashboardReporter(String projectName, File outputDirectory, DashboardConfiguration configuration) {
+    public HtmlDashboardReporter(String projectName, File outputDirectory, InputStream configurationSource, String format) {
+        this(projectName, outputDirectory, new DashboardConfigurationLoader().loadFrom(configurationSource), format);
+    }
+
+    protected HtmlDashboardReporter(String projectName, File outputDirectory, DashboardConfiguration configuration, String format) {
         this.projectName = projectName;
+        this.format = format;
         setOutputDirectory(outputDirectory);
         this.configuration = configuration;
         this.issueTracking = Injectors.getInjector().getInstance(IssueTracking.class);
         RequirementsProviderService requirementsProviderService = Injectors.getInjector().getInstance(RequirementsProviderService.class);
-        this.requirementsFactory = new RequirmentsOutcomeFactory(requirementsProviderService.getRequirementsProviders(),  issueTracking);
+        this.requirementsFactory = new RequirmentsOutcomeFactory(requirementsProviderService.getRequirementsProviders(), issueTracking);
     }
 
     public String getProjectName() {
@@ -50,14 +59,15 @@ public class HtmlDashboardReporter extends HtmlReporter {
 
         generateReportsForSections(allTestOutcomes, configuration.getSections());
         generateDashboardReportFor(allTestOutcomes);
-   }
+    }
 
     private void generateDashboardReportFor(TestOutcomes outcomes) throws IOException {
 
         RequirementsOutcomes requirementsOutcomes = requirementsFactory.buildRequirementsOutcomesFrom(outcomes);
 
-        Map<String,Object> context = new HashMap<String,Object>();
+        Map<String, Object> context = new HashMap<String, Object>();
         context.put("dashboard", configuration);
+        context.put("dashboardTitle", configuration.getTitle());
         context.put("allTestOutcomes", outcomes);
         context.put("requirementsFactory", requirementsFactory);
 
@@ -70,7 +80,7 @@ public class HtmlDashboardReporter extends HtmlReporter {
     }
 
     private void generateReportsForSections(TestOutcomes testOutcomes, List<Section> sections) throws IOException {
-        for(Section section : sections) {
+        for (Section section : sections) {
             TestOutcomes sectionOutcomes = testOutcomes.withTags(section.getTags()).withLabel(section.getTitle());
             generateSectionReport(section, sectionOutcomes);
             generateReportsForSections(sectionOutcomes, section.getSubsections());
@@ -78,7 +88,7 @@ public class HtmlDashboardReporter extends HtmlReporter {
     }
 
     private void generateSectionReport(Section section, TestOutcomes sectionOutcomes) throws IOException {
-        HtmlAggregateStoryReporter sectionReporter = new HtmlAggregateStoryReporter(getProjectName(),"../");
+        HtmlAggregateStoryReporter sectionReporter = new HtmlAggregateStoryReporter(getProjectName(), "../");
         File sectionDirectory = createSectionDirectory(section);
         sectionReporter.setOutputDirectory(sectionDirectory);
         sectionReporter.generateReportsForTestResultsIn(sectionOutcomes);
@@ -91,6 +101,11 @@ public class HtmlDashboardReporter extends HtmlReporter {
     }
 
     private TestOutcomes loadTestOutcomesFrom(File sourceDirectory) throws IOException {
-        return TestOutcomeLoader.testOutcomesIn(sourceDirectory).withHistory();
+        TestOutcomeLoader loader = new TestOutcomeLoader(getEnvironmentVariables());
+        return TestOutcomes.of(loader.forFormat(OutcomeFormat.valueOf(format.toUpperCase())).loadFrom(sourceDirectory));
+    }
+
+    public String getDashboardTitle() {
+        return getEnvironmentVariables().getProperty("thucydides.dashboard.title","ROBAS Project Dashboard");
     }
 }

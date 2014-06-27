@@ -14,35 +14,4 @@ public class JiraClient {
         this.password = password;
     }
 
-//    public Iterable<BasicIssue> findIssuesByJQL(String query) throws URISyntaxException {
-//        System.out.println("Searching with query " + query);
-//        JiraRestClientFactory factory = new AsynchronousJiraRestClientFactory();
-//        JiraRestClient restClient = factory.createWithBasicHttpAuthentication(new URI(url), username, password);
-//        List< BasicIssue > issues = fetchAllIssues(restClient.getSearchClient(), query);
-//        System.out.println("Issues: ");
-//        for(BasicIssue issue : issues) { System.out.print(issue.getKey() + " ");}
-//        return issues;
-//    }
-//
-//
-//    private List<BasicIssue> fetchAllIssues(SearchRestClient searchClient, String query) {
-//
-//        List<BasicIssue> matchingIssues = Lists.newArrayList();
-//
-//        int loadedIssues = 0;
-//        boolean allLoaded = false;
-//        int startAt = 0;
-//
-//        while(!allLoaded) {
-//            SearchResult batchResults = searchClient.searchJql(query, BATCH_SIZE, startAt).claim();
-//            List<BasicIssue> issuesInThisBatch = Lists.newArrayList(batchResults.getIssues());
-//            matchingIssues.addAll(issuesInThisBatch);
-//
-//            startAt += BATCH_SIZE;
-//            loadedIssues += issuesInThisBatch.size();
-//            allLoaded = batchResults.getTotal() <= loadedIssues;
-//        }
-//        return matchingIssues;
-//    }
-
 }

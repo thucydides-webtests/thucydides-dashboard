@@ -11,9 +11,17 @@ import java.util.List;
  */
 public class DashboardConfiguration {
 
+    public final static String DEFAULT_TITLE = "Project Dashboard";
+
     private final List<Section> sections;
+    private final String title;
 
     public DashboardConfiguration(List<Section> sections) {
+        this.title = DEFAULT_TITLE;
+        this.sections = ImmutableList.copyOf(sections);
+    }
+    public DashboardConfiguration(String title, List<Section> sections) {
+        this.title = (title == null) ? DEFAULT_TITLE : title;
         this.sections = ImmutableList.copyOf(sections);
     }
 
@@ -25,4 +33,7 @@ public class DashboardConfiguration {
         return Lists.partition(sections, rowSize);
     }
 
+    public String getTitle() {
+        return title;
+    }
 }
