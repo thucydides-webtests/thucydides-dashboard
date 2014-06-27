@@ -23,6 +23,12 @@ public class DashboardPage {
         driver.quit()
     }
 
+
+    def getDashboardTitle() {
+        driver.findElement(By.cssSelector(".dashboard-header")).text
+    }
+
+
     def getProjectHeadings() {
         driver.findElements(By.cssSelector(".nav .nav-header")).collect { it.text }
     }

@@ -77,31 +77,11 @@ public class ThucydidesDashboardMojo extends AbstractMojo {
      */
     public String requirementsBaseDir;
 
-
     /**
-     * @parameter
+     * Report format
+     * @parameter default-value="json"
      */
-    public String statisticsDriver;
-
-    /**
-     * @parameter
-     */
-    public String statisticsUsername;
-
-    /**
-     * @parameter
-     */
-    public String statisticsPassword;
-
-    /**
-     * @parameter
-     */
-    public String statisticsDialect;
-
-    /**
-     * @parameter
-     */
-    public String statisticsUrl;
+    public String format;
 
     /**
      * Path to the yaml configuration file to be used to generate the dashboard
@@ -145,13 +125,7 @@ public class ThucydidesDashboardMojo extends AbstractMojo {
     }
 
     private void configureEnvironmentVariables() {
-        updateSystemProperty(ThucydidesSystemProperty.PROJECT_KEY.getPropertyName(), projectKey, Thucydides.getDefaultProjectKey());
-
-        updateSystemProperty("thucydides.statistics.driver_class", statisticsDriver);
-        updateSystemProperty("thucydides.statistics.url", statisticsUrl);
-        updateSystemProperty("thucydides.statistics.username", statisticsUsername);
-        updateSystemProperty("thucydides.statistics.password", statisticsPassword);
-        updateSystemProperty("thucydides.statistics.dialect", statisticsDialect);
+        updateSystemProperty(ThucydidesSystemProperty.THUCYDIDES_PROJECT_KEY.getPropertyName(), projectKey, Thucydides.getDefaultProjectKey());
 
         updateSystemProperty("thucydides.jira.url", jiraUrl);
         updateSystemProperty("thucydides.jira.project", jiraProject);
@@ -188,7 +162,7 @@ public class ThucydidesDashboardMojo extends AbstractMojo {
 
     protected HtmlDashboardReporter getReporter() throws FileNotFoundException {
         if (reporter == null) {
-            reporter = new HtmlDashboardReporter(projectKey, outputDirectory, configurationFile());
+            reporter = new HtmlDashboardReporter(projectKey, outputDirectory, configurationFile(), format);
         }
         return reporter;
 

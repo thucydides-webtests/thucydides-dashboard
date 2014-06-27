@@ -31,6 +31,7 @@ public class DashboardConfigurationLoader {
     private static final String SUBSECTIONS = "subsections";
     private static final Optional<JIRAConfiguration> JIRA_NOT_CONFIGURED = Optional.absent();
     private static final List<TestTag> NO_TAGS = ImmutableList.of();
+    public static final String TITLE_KEY = "Title";
 
     private FilterService filterService;
 
@@ -46,9 +47,17 @@ public class DashboardConfigurationLoader {
 
     public DashboardConfiguration loadFrom(InputStream inputStream) {
         Map<String, Object> fields = (Map<String, Object>) new Yaml().load(inputStream);
+        String title = readTitleFrom(fields);
         List<Section> sections = readSectionsFrom(fields, NO_PARENTS );
         List<Section> sectionsWithFilteredTags = updateTagsUsingFiltersIn(sections);
-        return new DashboardConfiguration(sectionsWithFilteredTags);
+        return new DashboardConfiguration(title, sectionsWithFilteredTags);
+    }
+
+    private String readTitleFrom(Map<String, Object> fields) {
+        if (fields.containsKey("Title")) {
+            return (String) fields.get("Title");
+        }
+        return null;
     }
 
     private List<Section> updateTagsUsingFiltersIn(List<Section> sections) {
@@ -86,6 +95,7 @@ public class DashboardConfigurationLoader {
 
     private List<Section> readSectionsFrom(Map<String, Object> fields, List<Section> parents) {
         Set<String> sectionTitles = fields.keySet();
+        sectionTitles.remove(TITLE_KEY);
         List<Section> sections = Lists.newArrayList();
         for (String sectionTitle : sectionTitles) {
             Object sectionValues = fields.get(sectionTitle);

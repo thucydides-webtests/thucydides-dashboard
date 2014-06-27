@@ -18,7 +18,7 @@ Sprint 2: "iteration:sprint-2"
 
     def "should produce reports containing only results for each section"() {
         given:
-            def reporter = new HtmlDashboardReporter("SOMEPROJECT", outputDirectory, streamed(simpleConfiguration))
+            def reporter = new HtmlDashboardReporter("SOMEPROJECT", outputDirectory, streamed(simpleConfiguration),"xml")
         when:
             reporter.generateReportsForTestResultsFrom(sourceDirectory);
         then:
@@ -43,7 +43,7 @@ Sprint 2:
 """
     def "should produce reports for top-level and nested sections"() {
         given:
-            def reporter = new HtmlDashboardReporter("SOMEPROJECT", outputDirectory, streamed(nestedConfiguration))
+            def reporter = new HtmlDashboardReporter("SOMEPROJECT", outputDirectory, streamed(nestedConfiguration),"xml")
         when:
             reporter.generateReportsForTestResultsFrom(sourceDirectory);
         then:
@@ -76,7 +76,7 @@ UI Project:
 """
     def "should produce reports for different tag configurations"() {
         given:
-            def reporter = new HtmlDashboardReporter("SOMEPROJECT", outputDirectory, streamed(anotherConfig))
+            def reporter = new HtmlDashboardReporter("SOMEPROJECT", outputDirectory, streamed(anotherConfig),"xml")
         when:
             reporter.generateReportsForTestResultsFrom(sourceDirectory);
         then:
@@ -98,7 +98,7 @@ UI Project:
 
     def "section reports should have relative links to test results"() {
         given:
-            def reporter = new HtmlDashboardReporter("SOMEPROJECT", outputDirectory, streamed(nestedConfiguration))
+            def reporter = new HtmlDashboardReporter("SOMEPROJECT", outputDirectory, streamed(nestedConfiguration),"xml")
         when:
             reporter.generateReportsForTestResultsFrom(sourceDirectory);
         then:

@@ -12,6 +12,7 @@ class WhenGeneratingTheDashboardReport extends Specification {
     def sourceDirectory = new File(Thread.currentThread().contextClassLoader.getResource("sampleresults").file)
 
     def multiProjectConfiguration = """
+Title: My Dashboard
 Dictionary Project:
     tags: "component:dictionary"
     subsections:
@@ -41,7 +42,7 @@ UI Project:
 
     def "should generate a dashboard report in the output directory"() {
         given:
-            def reporter = new HtmlDashboardReporter("SOMEPROJECT",outputDirectory, streamed(multiProjectConfiguration))
+            def reporter = new HtmlDashboardReporter("SOMEPROJECT",outputDirectory, streamed(multiProjectConfiguration),"xml")
         when:
             reporter.generateReportsForTestResultsFrom(sourceDirectory)
         then:
@@ -50,25 +51,27 @@ UI Project:
 
     def "should generate a dashboard report with a list of all the configured projects"() {
         given:
-            def reporter = new HtmlDashboardReporter("SOMEPROJECT",outputDirectory, streamed(multiProjectConfiguration))
+            def reporter = new HtmlDashboardReporter("SOMEPROJECT",outputDirectory, streamed(multiProjectConfiguration),"xml")
         when:
             reporter.generateReportsForTestResultsFrom(sourceDirectory)
             def dashboard = new File(outputDirectory,"dashboard.html")
             dashboardPage = new DashboardPage(dashboard)
             dashboardPage.open()
         then:
+            dashboardPage.dashboardTitle == "My Dashboard"
+        and:
             dashboardPage.projectHeadings == ["DICTIONARY PROJECT","UI PROJECT"]
         and:
             dashboardPage.projectSubheadings == ["Sprint 1", "Sprint 2", "Sprint 1", "Sprint 2", "UI stuff", "Sprint 1", "Sprint 2"]
         and:
-            dashboardPage.graphHeadings == ["Dictionary Project","UI Project"]
+            dashboardPage.graphHeadings == ["Overview","Dictionary Project","UI Project"]
         and:
             dashboardPage.graphDataPoints == ["80%","20%","25%","75%"]
     }
 
     def "should generate a dashboard report with links to detailed reports"() {
         given:
-            def reporter = new HtmlDashboardReporter("SOMEPROJECT",outputDirectory, streamed(multiProjectConfiguration))
+            def reporter = new HtmlDashboardReporter("SOMEPROJECT",outputDirectory, streamed(multiProjectConfiguration),"xml")
         when:
             reporter.generateReportsForTestResultsFrom(sourceDirectory)
             def dashboard = new File(outputDirectory,"dashboard.html")
@@ -85,6 +88,7 @@ UI Project:
             mojo.projectKey = "MY-PROJECT"
             mojo.sourceDirectory = sourceDirectory
             mojo.outputDirectory = outputDirectory
+            mojo.format = "XML"
         when: "we generate the report"
             mojo.execute()
             def dashboard = new File(outputDirectory,"dashboard.html")

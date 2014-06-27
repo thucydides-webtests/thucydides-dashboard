@@ -1,3 +1,4 @@
+Title: My Dashboard
 Section 1:
   chart: "requirements"
   filter: "project in (P1, P2)"
