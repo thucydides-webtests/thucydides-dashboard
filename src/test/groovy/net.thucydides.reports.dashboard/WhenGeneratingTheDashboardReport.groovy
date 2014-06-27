@@ -66,7 +66,7 @@ UI Project:
         and:
             dashboardPage.graphHeadings == ["Overview","Dictionary Project","UI Project"]
         and:
-            dashboardPage.graphDataPoints == ["80%","20%","25%","75%"]
+            dashboardPage.graphDataPoints == ["56%","44%","80%","20%","25%","75%"]
     }
 
     def "should generate a dashboard report with links to detailed reports"() {

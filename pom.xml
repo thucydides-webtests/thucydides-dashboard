@@ -7,7 +7,7 @@
     </parent>
     <groupId>net.thucydides.maven.plugins</groupId>
     <artifactId>thucydides-dashboard-maven-plugin</artifactId>
-    <version>0.9.250-SNAPSHOT</version>
+    <version>0.9.252-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
     <name>Thucydides Dashboard Maven Plugin</name>
     <url>http://maven.apache.org</url>
@@ -198,7 +198,7 @@
             <plugin>
                 <groupId>net.thucydides.maven.plugins</groupId>
                 <artifactId>thucydides-dashboard-maven-plugin</artifactId>
-                <version>0.9.250-SNAPSHOT</version>
+                <version>0.9.252-SNAPSHOT</version>
             </plugin>
         </plugins>
     </build>
