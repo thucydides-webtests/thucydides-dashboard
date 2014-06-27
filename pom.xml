@@ -117,6 +117,10 @@
     <build>
         <plugins>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.14.1</version>
@@ -198,11 +202,7 @@
             <plugin>
                 <groupId>net.thucydides.maven.plugins</groupId>
                 <artifactId>thucydides-dashboard-maven-plugin</artifactId>
-<<<<<<< HEAD
                 <version>0.9.252-SNAPSHOT</version>
-=======
-                <version>0.9.250-SNAPSHOT</version>
->>>>>>> 10303958ced032cff43e236b31ed5b416a95e55c
             </plugin>
         </plugins>
     </build>
