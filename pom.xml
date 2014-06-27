@@ -60,6 +60,7 @@
             <groupId>net.thucydides</groupId>
             <artifactId>thucydides-test-utils</artifactId>
             <version>0.9.250</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>

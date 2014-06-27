@@ -30,7 +30,7 @@ public class HtmlDashboardReporter extends HtmlReporter {
     private final IssueTracking issueTracking;
 
     private final String DASHBOARD_REPORT = "freemarker/dashboard.ftl";
-    private final String DASHBOARD_REPORT_NAME = "dashboard.html";
+    private final String DASHBOARD_REPORT_NAME = "thucydides-dashboard.html";
 
     public HtmlDashboardReporter(String projectName, File outputDirectory, InputStream configurationSource) {
         this(projectName, outputDirectory, configurationSource, DEFAULT_FORMAT);
